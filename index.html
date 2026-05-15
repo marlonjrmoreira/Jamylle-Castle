@@ -17,12 +17,14 @@
         
         @keyframes fall { 0% { transform: translate(0, 0) rotate(15deg); } 100% { transform: translate(100vw, 100vh) rotate(45deg); } }
         @keyframes idleBreathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-8px) scaleY(1.02); } }
+        @keyframes bounceHappy { 0%, 100% { transform: translateY(0); } 20% { transform: translateY(-30px); } 40% { transform: translateY(0); } 60% { transform: translateY(-15px); } 80% { transform: translateY(0); } }
+        @keyframes shakeShock { 0%, 100% { transform: translate(0,0); } 10%, 30%, 50%, 70%, 90% { transform: translate(-3px, -3px); } 20%, 40%, 60%, 80% { transform: translate(3px, 3px); } }
         @keyframes floatText { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         /* === LOBBY === */
         #setup-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; }
         #rain-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
-        .chinelo-rain { position: absolute; top: -50px; opacity: 0.4; animation: fall linear infinite; }
+        .chinelo-rain { position: absolute; top: -150px; opacity: 0.6; animation: fall linear infinite; }
 
         .lobby-container { position: relative; z-index: 10; background: rgba(0, 0, 0, 0.75); border: 4px solid #f1c40f; border-radius: 16px; padding: 25px; width: 95%; max-width: 450px; max-height: 95vh; overflow-y: auto; box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 20px rgba(241, 196, 15, 0.2); text-align: center; backdrop-filter: blur(5px); }
         .lobby-container::-webkit-scrollbar { width: 5px; } .lobby-container::-webkit-scrollbar-thumb { background: #f1c40f; border-radius: 5px; }
@@ -52,12 +54,15 @@
         .btn-action { width: 100%; padding: 12px; font-family: 'Press Start 2P', cursive; font-size: 10px; cursor: pointer; border-radius: 8px; margin-bottom: 10px; border: 2px solid #fff; transition: transform 0.1s;} .btn-action:active { transform: scale(0.95); }
         .btn-create { background: #8e44ad; color: white; } .btn-join { background: #e67e22; color: white; }
         .btn-start { width: 100%; padding: 15px; background: #2ecc71; color: white; border: 3px solid #fff; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 10px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 0 #27ae60;} .btn-start:active { transform: translateY(4px); box-shadow: 0 0 0 #27ae60; }
-        .btn-discord { width: 100%; padding: 10px; background: #5865F2; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 9px; cursor: pointer; margin-top: 10px; box-shadow: 0 3px 0 #404eed;} .btn-discord:active { transform: translateY(3px); box-shadow: 0 0 0 #404eed; }
+        .btn-discord { width: 100%; padding: 10px; background: #5865F2; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 9px; cursor: pointer; margin-top: 10px; box-shadow: 0 3px 0 #404eed; display: flex; align-items: center; justify-content: center; gap: 10px;} .btn-discord:active { transform: translateY(3px); box-shadow: 0 0 0 #404eed; }
         .status-rede { font-family: 'VT323', monospace; font-size: 16px; color: #f1c40f; margin-top: 10px; }
 
-        /* === PRINCESA E JOGO GERAL === */
-        .jamylle-container { position: absolute; bottom: 20px; right: 30px; z-index: 25; display: flex; flex-direction: column; align-items: center; pointer-events: none; transition: all 0.8s ease; }
-        .jamylle-sprite { width: 90px; height: 110px; animation: idleBreathe 2.5s infinite ease-in-out; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.6)); }
+        /* === PRINCESA JAMYLLE === */
+        .jamylle-container { position: absolute; bottom: 20px; right: 30px; z-index: 25; display: flex; flex-direction: column; align-items: center; pointer-events: none; transition: all 0.3s ease; }
+        .jamylle-sprite { width: 100px; height: 120px; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.6)); }
+        .anim-idle { animation: idleBreathe 2.5s infinite ease-in-out; }
+        .anim-happy { animation: bounceHappy 1s; }
+        .anim-shock { animation: shakeShock 1s; }
         .jamylle-name { font-family: 'Press Start 2P', cursive; font-size: 8px; color: #fcd82e; margin-top: 10px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; border: 1px solid #fcd82e; animation: floatText 2.5s infinite ease-in-out; }
         body.theme-table .jamylle-container { bottom: 230px; right: 10px; transform: scale(0.85); z-index: 2; }
 
@@ -73,7 +78,7 @@
         .sweep-animation { animation: sweepCards 0.5s forwards ease-in; } .drop-animation { animation: dropCard 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         body.bg-heat-1 { background: radial-gradient(circle at top, #4a6315, #2d3d0b 70%); } body.bg-heat-2 { background: radial-gradient(circle at top, #733d15, #421e07 70%); } body.bg-heat-3 { animation: bgPulse 2s infinite alternate; } body.ultimate-active { background: radial-gradient(circle at top, #2e0000, #000000 70%); }
 
-        .opponents-container { display: flex; justify-content: center; gap: 10px; padding: 10px; background: rgba(0,0,0,0.3); box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 5; font-family: 'Segoe UI', sans-serif; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .opponents-container { display: flex; justify-content: center; gap: 10px; padding: 10px; background: rgba(0,0,0,0.3); box-shadow: 0 4px 10px rgba(0,0,0,0.4); z-index: 50; font-family: 'Segoe UI', sans-serif; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.1); width: 100%;}
         .opponent-box { background: rgba(0, 68, 23, 0.8); border: 2px solid rgba(0, 43, 14, 0.9); backdrop-filter: blur(5px); border-radius: 6px; padding: 6px 12px; color: white; text-align: center; font-weight: bold; font-size: 12px; transition: all 0.2s; position: relative; }
         .opponent-box.active { background: #ffeb3b; color: #000; border-color: #f57f17; box-shadow: 0 0 10px rgba(255,235,59,0.8); transform: translateY(-3px); }
         .opponent-box.finished { background: rgba(51, 51, 51, 0.8); color: #aaa; border-color: #222; opacity: 0.8; }
@@ -81,10 +86,10 @@
         .opponent-box.finished .rank-badge { display: block; }
 
         .center-table { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .table-cards-container { display: flex; justify-content: center; align-items: center; min-height: 220px; min-width: 160px; border: 3px dashed rgba(255,255,255,0.2); border-radius: 14px; position: relative; cursor: pointer; transition: all 0.3s ease; }
+        .table-cards-container { display: flex; justify-content: center; align-items: center; height: 220px; width: 160px; border: 3px dashed rgba(255,255,255,0.2); border-radius: 14px; position: relative; cursor: pointer; transition: all 0.3s ease; }
         .heat-1 { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); border-color: rgba(255, 215, 0, 0.8); } .heat-2 { box-shadow: 0 0 60px rgba(255, 140, 0, 0.8); border-color: rgba(255, 140, 0, 1); } .heat-3 { box-shadow: 0 0 100px rgba(255, 0, 0, 0.9); border-color: rgba(255, 0, 0, 1); animation: shake 0.2s infinite; }
 
-        #status-message { position: absolute; top: -40px; background: rgba(0,0,0,0.75); color: #fff; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 14px; text-align: center; border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; z-index: 5; font-family: 'Segoe UI', sans-serif; pointer-events: none; }
+        #status-message { position: absolute; top: -45px; background: rgba(0,0,0,0.85); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: bold; font-size: 15px; text-align: center; border: 2px solid #ffeb3b; white-space: nowrap; z-index: 5; font-family: 'Segoe UI', sans-serif; pointer-events: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         #table-owner { position: absolute; bottom: -25px; color: rgba(255,255,255,0.8); font-weight: bold; font-size: 12px; font-family: 'Segoe UI', sans-serif; pointer-events: none;}
         #table-hint { position: absolute; bottom: -45px; color: #ffeb3b; font-weight: bold; font-size: 10px; font-family: 'Segoe UI', sans-serif; pointer-events: none; opacity: 0; transition: opacity 0.3s;}
         
@@ -100,7 +105,10 @@
         /* Cartas */
         .hand { display: flex; justify-content: center; align-items: flex-end; height: 210px; padding: 10px 20px 0 20px; width: 100%; overflow-x: auto; scrollbar-width: none; }
         .hand::-webkit-scrollbar { display: none; }
-        .card, .played-card { width: 140px; height: 200px; background: linear-gradient(to bottom, #ffffff, #f4f4f4); border-radius: 12px; position: relative; border: 1px solid #cfcfcf; box-shadow: 0 10px 15px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.9); overflow: hidden; transition: 0.18s ease; flex-shrink: 0; cursor: pointer; user-select: none; }
+        .card, .played-card { width: 140px; height: 200px; background: linear-gradient(to bottom, #ffffff, #f4f4f4); border-radius: 12px; border: 1px solid #cfcfcf; box-shadow: 0 10px 15px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.9); overflow: hidden; transition: 0.18s ease; flex-shrink: 0; cursor: pointer; user-select: none; }
+        .card { position: relative; }
+        .played-card { position: absolute; margin: 0 !important; cursor: default; } /* Absoluto para espalhar do centro */
+
         .card::after, .played-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.35), transparent 30%); pointer-events: none; }
         .suit-filtro { color: #8a3600; } .suit-chinelo { color: #005c29; } .suit-cadeira { color: #b8860b; } .suit-papagaio { color: #c11b1b; } .suit-coringa { color: #111; }    
         .corner { position: absolute; display: flex; flex-direction: column; align-items: center; line-height: 0.9; font-weight: bold; z-index: 3; }
@@ -112,10 +120,9 @@
         .face-art { position: relative; font-size: 62px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); display: flex; justify-content: center; align-items: center; }
         .ornament { position: absolute; width: 100%; height: 100%; border: 3px solid rgba(0,0,0,0.1); border-radius: 6px; }
         svg { width: 1em; height: 1em; }
+        
         .hand .card { margin-left: -90px; } .hand .card:first-child { margin-left: 0; }
         .hand .card.selected { transform: translateY(-25px); outline: 3px solid #ffeb3b; box-shadow: 0 15px 30px rgba(0,0,0,0.5); z-index: 10; }
-        .played-card { position: absolute; margin-left: 0; cursor: default; }
-        .played-card:nth-child(2) { transform: rotate(4deg) translate(8px, -4px); } .played-card:nth-child(3) { transform: rotate(-5deg) translate(-10px, 8px); } .played-card:nth-child(4) { transform: rotate(7deg) translate(14px, 0); }
 
         /* === MODAIS === */
         .overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; flex-direction: column; align-items: center; justify-content: center; font-family: 'Segoe UI', Arial, sans-serif; color: white; text-align: center; }
@@ -132,42 +139,68 @@
         }
 
         @media (max-width: 768px) {
+            /* Cabeçalho Fixo no Telemóvel */
+            .opponents-container { position: fixed; top: 0; left: 0; width: 100%; padding: 5px; background: rgba(0,0,0,0.85); }
+            #game-screen { padding-top: 50px; }
+            .opponent-box { font-size: 10px; padding: 4px 6px; }
+
             .card, .played-card { width: 85px; height: 121px; border-radius: 8px; }
             .hand { height: 135px; justify-content: flex-start; } 
             
-            /* ATUALIZAÇÃO NO ESPAÇAMENTO PARA TELEMÓVEL: DE -50px PARA -30px (MAIS FÁCIL CLICAR) */
-            .hand .card { margin-left: -30px; } 
+            /* Espaçamento maior no Mobile para facilitar clique */
+            .hand .card { margin-left: -25px; } 
             .hand .card:first-child { margin-left: auto; } 
             .hand .card:last-child { margin-right: auto; }
-            
-            /* DESTAQUE MAIOR QUANDO SELECIONADA NO TELEMÓVEL */
             .hand .card.selected { transform: translateY(-30px); outline-width: 3px; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
             
             .corner .value { font-size: 18px; } .corner .mini-suit { font-size: 14px; }
             .top-left { top: 4px; left: 6px; } .bottom-right { bottom: 4px; right: 6px; }
             .center-suit { font-size: 45px; } .face { width: 55px; height: 75px; border-width: 1px; } .face-art { font-size: 38px; }
             .table-cards-container { min-height: 150px; min-width: 110px; border-width: 2px; }
-            .played-card:nth-child(2) { transform: rotate(4deg) translate(5px, -2px); } .played-card:nth-child(3) { transform: rotate(-5deg) translate(-6px, 5px); } .played-card:nth-child(4) { transform: rotate(7deg) translate(8px, 0); }
-            #status-message { font-size: 12px; top: -35px; } #table-owner { font-size: 11px; bottom: -20px; } #table-hint { display: none; } 
+            #status-message { font-size: 11px; top: -35px; padding: 6px 12px; } #table-owner { font-size: 11px; bottom: -20px; } #table-hint { display: none; } 
             .history-card-scale { transform: scale(0.5); } .history-cards-wrapper { height: 70px; }
             #combo-text-effect { font-size: 24px; top: 30%; }
             .lobby-container { padding: 20px; }
             .jamylle-container { bottom: 10px; right: 10px; } .jamylle-sprite { width: 70px; height: 90px; }
-            body.theme-table .jamylle-container { bottom: 160px; right: -5px; transform: scale(0.7); }
+            body.theme-table .jamylle-container { bottom: 150px; right: -5px; transform: scale(0.7); }
         }
     </style>
 </head>
 <body id="game-body" class="theme-lobby">
 
     <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
-        <symbol id="icon-chinelo" viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#00a8ff"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#fff" stroke-width="2" fill="none"/></symbol>
+        <symbol id="icon-chinelo" viewBox="0 0 32 32">
+            <path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#009c3b"/>
+            <path d="M16,10 L10,18 M16,10 L22,18" stroke="#ffdf00" stroke-width="2.5" fill="none"/>
+        </symbol>
         <symbol id="icon-papagaio" viewBox="0 0 32 32"><path d="M16,4 C20,4 22,8 22,12 C22,20 16,28 12,30 Z" fill="#4cd137"/><path d="M22,8 C26,8 28,12 22,14 Z" fill="#e84118"/><circle cx="20" cy="8" r="1" fill="#000"/><path d="M14,14 C12,18 8,20 6,18 Z" fill="#fbc531"/></symbol>
         <symbol id="icon-filtro" viewBox="0 0 32 32"><path d="M10,8 Q16,5 22,8 L24,18 Q16,22 8,18 Z" fill="#c04e01"/><path d="M10,8 Q16,11 22,8 L20,4 Q16,2 12,4 Z" fill="#8a3600"/><rect x="14" y="2" width="4" height="2" fill="#555"/></symbol>
         <symbol id="icon-caramelo" viewBox="0 0 32 32"><rect x="6" y="12" width="20" height="12" fill="#d2691e" rx="4"/><circle cx="12" cy="10" r="4" fill="#d2691e"/><circle cx="10" cy="9" r="1" fill="#000"/><circle cx="14" cy="9" r="1" fill="#000"/></symbol>
-        <symbol id="jamylle-art" viewBox="0 0 64 64"><rect x="18" y="20" width="28" height="30" fill="#f1c40f" rx="4"/><path d="M22,35 L42,35 L48,60 L16,60 Z" fill="#9b59b6"/><rect x="28" y="35" width="8" height="25" fill="#8e44ad"/><rect x="22" y="18" width="20" height="18" fill="#ffeaa7" rx="2"/><rect x="26" y="24" width="2" height="4" fill="#2c3e50"/><rect x="36" y="24" width="2" height="4" fill="#2c3e50"/><rect x="24" y="28" width="3" height="2" fill="#ffb8b8"/><rect x="37" y="28" width="3" height="2" fill="#ffb8b8"/><path d="M22,18 L24,10 L32,14 L40,10 L42,18 Z" fill="#f39c12"/><rect x="20" y="16" width="24" height="4" fill="#f1c40f"/><rect x="18" y="18" width="4" height="12" fill="#f1c40f"/></symbol>
+        
+        <symbol id="jamylle-idle" viewBox="0 0 64 64">
+            <rect x="18" y="20" width="28" height="30" fill="#f1c40f" rx="4"/><path d="M22,35 L42,35 L48,60 L16,60 Z" fill="#9b59b6"/><rect x="28" y="35" width="8" height="25" fill="#8e44ad"/><rect x="22" y="18" width="20" height="18" fill="#ffeaa7" rx="2"/>
+            <rect x="26" y="24" width="2" height="4" fill="#2c3e50"/><rect x="36" y="24" width="2" height="4" fill="#2c3e50"/><rect x="24" y="28" width="3" height="2" fill="#ffb8b8"/><rect x="37" y="28" width="3" height="2" fill="#ffb8b8"/><path d="M22,18 L24,10 L32,14 L40,10 L42,18 Z" fill="#f39c12"/><rect x="20" y="16" width="24" height="4" fill="#f1c40f"/><rect x="18" y="18" width="4" height="12" fill="#f1c40f"/>
+        </symbol>
+        <symbol id="jamylle-happy" viewBox="0 0 64 64">
+            <rect x="18" y="20" width="28" height="30" fill="#f1c40f" rx="4"/><path d="M22,35 L42,35 L48,60 L16,60 Z" fill="#9b59b6"/><rect x="28" y="35" width="8" height="25" fill="#8e44ad"/><rect x="22" y="18" width="20" height="18" fill="#ffeaa7" rx="2"/>
+            <path d="M 25 25 Q 27 23 29 25" stroke="#2c3e50" stroke-width="2" fill="none"/><path d="M 35 25 Q 37 23 39 25" stroke="#2c3e50" stroke-width="2" fill="none"/>
+            <rect x="24" y="27" width="3" height="2" fill="#ff7675"/><rect x="37" y="27" width="3" height="2" fill="#ff7675"/>
+            <path d="M 29 29 Q 32 33 35 29 Z" fill="#d63031"/>
+            <path d="M22,18 L24,10 L32,14 L40,10 L42,18 Z" fill="#f39c12"/><rect x="20" y="16" width="24" height="4" fill="#f1c40f"/><rect x="18" y="18" width="4" height="12" fill="#f1c40f"/>
+        </symbol>
+        <symbol id="jamylle-shock" viewBox="0 0 64 64">
+            <rect x="18" y="20" width="28" height="30" fill="#f1c40f" rx="4"/><path d="M22,35 L42,35 L48,60 L16,60 Z" fill="#9b59b6"/><rect x="28" y="35" width="8" height="25" fill="#8e44ad"/><rect x="22" y="18" width="20" height="18" fill="#ffeaa7" rx="2"/>
+            <circle cx="27" cy="25" r="3" fill="#fff"/><circle cx="27" cy="25" r="1.5" fill="#000"/><circle cx="37" cy="25" r="3" fill="#fff"/><circle cx="37" cy="25" r="1.5" fill="#000"/>
+            <rect x="24" y="28" width="2" height="2" fill="#ffb8b8"/><rect x="38" y="28" width="2" height="2" fill="#ffb8b8"/>
+            <circle cx="32" cy="30" r="3" fill="#000"/>
+            <path d="M22,18 L24,10 L32,14 L40,10 L42,18 Z" fill="#f39c12"/><rect x="20" y="16" width="24" height="4" fill="#f1c40f"/><rect x="18" y="18" width="4" height="12" fill="#f1c40f"/>
+        </symbol>
     </svg>
 
-    <div class="jamylle-container"><svg class="jamylle-sprite"><use href="#jamylle-art"></use></svg><div class="jamylle-name">Princesa Jamylle</div></div>
+    <div class="jamylle-container">
+        <svg class="jamylle-sprite anim-idle" id="princesa-svg"><use href="#jamylle-idle"></use></svg>
+        <div class="jamylle-name">Princesa Jamylle</div>
+    </div>
     <div id="combo-text-effect">COMBO!</div><div class="shockwave-ring" id="shockwave"></div>
 
     <div id="setup-screen">
@@ -209,7 +242,7 @@
                 <div id="guest-status" class="status-rede"></div>
             </div>
             
-            <button class="btn-discord" onclick="abrirDiscord()">🎧 ABRIR DISCORD (CHAT DE VOZ)</button>
+            <button class="btn-discord" onclick="abrirVoz()">🎤 ENTRAR NO CHAT DE VOZ</button>
         </div>
     </div>
 
@@ -236,20 +269,14 @@
     </div>
 
     <script>
-        // === MOTOR DE AUDIO 8-BIT E VIBRAÇÃO ====
+        // === MOTOR DE AUDIO E VIBRAÇÃO ====
         let audioCtx;
-        function initAudio() {
-            if(!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
+        function initAudio() { if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if(audioCtx.state === 'suspended') audioCtx.resume(); }
         function play8BitSound(freq, type, duration) {
-            if(!audioCtx) return;
-            const oscillator = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
+            if(!audioCtx) return; const oscillator = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
             oscillator.type = type; oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
             gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-            oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
-            oscillator.start(); oscillator.stop(audioCtx.currentTime + duration);
+            oscillator.connect(gainNode); gainNode.connect(audioCtx.destination); oscillator.start(); oscillator.stop(audioCtx.currentTime + duration);
         }
 
         const SFX = {
@@ -262,16 +289,19 @@
             start: () => { setTimeout(() => play8BitSound(523.25, 'square', 0.1), 0); setTimeout(() => play8BitSound(659.25, 'square', 0.1), 150); setTimeout(() => play8BitSound(783.99, 'square', 0.2), 300); }
         };
 
-        // === VARIÁVEIS E INICIALIZAÇÃO ===
+        // === VARIÁVEIS DE REDE E JOGO ===
         let myPeer = null; let isHost = false; 
         let guestConnections = []; let connToHost = null; 
         let myPlayerIndex = -1; let playerNames = []; let jogoIniciando = false;
+        let voiceLinkGlobal = ""; // Guarda o link do chat de voz
+
+        let heartbeatInterval; let lastPong = {}; // Sistema Anti-Queda
 
         const avatares = ['icon-chinelo', 'icon-papagaio', 'icon-filtro', 'icon-caramelo'];
         let avatarAtual = 0;
         function mudarAvatar(direcao) { avatarAtual += direcao; if (avatarAtual < 0) avatarAtual = avatares.length - 1; if (avatarAtual >= avatares.length) avatarAtual = 0; document.getElementById('avatar-display').innerHTML = `<svg width="40" height="40"><use href="#${avatares[avatarAtual]}"></use></svg>`; }
-        function abrirDiscord() { window.open("https://discord.gg/seu-codigo-aqui", "_blank"); }
-
+        
+        function abrirVoz() { if(voiceLinkGlobal) window.open(voiceLinkGlobal, "_blank"); else alert("A sala de voz será ativada ao criar ou entrar na partida!"); }
         function mostrarPainelHost() { initAudio(); document.getElementById('p2p-options').style.display = 'none'; document.getElementById('host-panel').style.display = 'block'; }
         function mostrarPainelJoin() { initAudio(); document.getElementById('p2p-options').style.display = 'none'; document.getElementById('join-panel').style.display = 'block'; }
 
@@ -279,21 +309,22 @@
             criarChuvaDeChinelos();
             const urlParams = new URLSearchParams(window.location.search);
             const salaUrl = urlParams.get('sala');
-            if(salaUrl) {
-                mostrarPainelJoin();
-                document.getElementById('join-code').value = salaUrl.toUpperCase();
-            }
+            if(salaUrl) { mostrarPainelJoin(); document.getElementById('join-code').value = salaUrl.toUpperCase(); }
         };
 
-        function copiarLinkConvite(link) {
-            navigator.clipboard.writeText(link).then(() => {
-                alert("✅ Link copiado com sucesso! Pode colar no WhatsApp da malta.");
-            }).catch(err => {
-                alert("Erro ao copiar o link. Mas pode copiar este endereço: " + link);
-            });
+        function copiarLinkConvite(link) { navigator.clipboard.writeText(link).then(() => { alert("✅ Link copiado com sucesso! Mande no WhatsApp."); }).catch(err => { alert("Copie este endereço: " + link); }); }
+
+        // --- ANIMAÇÃO PRINCESA ---
+        let princessTimer = null;
+        function animarPrincesa(estado) {
+            const svg = document.getElementById('princesa-svg');
+            svg.innerHTML = `<use href="#jamylle-${estado}"></use>`;
+            svg.className = `jamylle-sprite anim-${estado}`;
+            clearTimeout(princessTimer);
+            if(estado !== 'idle') princessTimer = setTimeout(() => { animarPrincesa('idle'); }, 2000);
         }
 
-        // --- SISTEMA DE REDE: ANFITRIÃO ---
+        // --- ANFITRIÃO ---
         function iniciarSalaRede() {
             const roomName = document.getElementById('host-code-input').value.toUpperCase().trim();
             if(!roomName) { alert("Crie um nome para a sala!"); return; }
@@ -311,10 +342,24 @@
                 let urlBase = window.location.href.split('?')[0];
                 let linkMistico = `${urlBase}?sala=${roomName}`;
                 
+                // Gera Link de Voz Jitsi Exclusivo e não expirável
+                voiceLinkGlobal = `https://meet.jit.si/JamylleCastle_${Math.random().toString(36).substr(2, 8)}`;
+                
                 document.getElementById('host-status').innerHTML = `✅ Sala aberta!<br>
                     <button onclick="copiarLinkConvite('${linkMistico}')" style="margin-top:10px; padding:10px; background:#e67e22; border:2px solid white; color:white; border-radius:5px; cursor:pointer; font-family:'Press Start 2P', cursive; font-size:8px; width:100%;">📋 COPIAR LINK CONVITE</button><br>
                     <br><span style="font-size:12px; color:#fff;" id="contador-amigos">A aguardar... (1 de ${maxHumanos})</span>`;
                 
+                // Heartbeat Loop (Host)
+                heartbeatInterval = setInterval(() => {
+                    let now = Date.now();
+                    guestConnections.forEach((conn) => {
+                        if (!conn || !conn.open) return;
+                        let idx = conn.assignedIndex;
+                        if (!lastPong[idx]) lastPong[idx] = now;
+                        if (now - lastPong[idx] > 10000) { handlePlayerDrop(idx); } else { conn.send({action: 'ping'}); }
+                    });
+                }, 3000);
+
                 if(maxHumanos <= 1) { dispararInicioDeJogo(); }
             });
 
@@ -325,48 +370,33 @@
                     let nextIndex = guestConnections.length + 1;
                     conn.assignedIndex = nextIndex;
                     guestConnections.push(conn);
+                    lastPong[nextIndex] = Date.now();
                     
                     let maxHumanos = parseInt(document.getElementById('num-humans').value) || 2;
                     let numAtuais = guestConnections.length + 1;
-                    
-                    if(document.getElementById('contador-amigos')) {
-                        document.getElementById('contador-amigos').innerText = `A aguardar... (${numAtuais} de ${maxHumanos})`;
-                    }
+                    if(document.getElementById('contador-amigos')) { document.getElementById('contador-amigos').innerText = `A aguardar... (${numAtuais} de ${maxHumanos})`; }
 
-                    // Detetor de Abandono (Desconexão)
-                    conn.on('close', function() { handlePlayerDrop(conn.assignedIndex); });
-                    conn.on('error', function() { handlePlayerDrop(conn.assignedIndex); });
-                    
                     conn.on('data', function(data) {
-                        if (data.action === 'joinInfo') {
+                        if (data.action === 'pong') { lastPong[conn.assignedIndex] = Date.now(); }
+                        else if (data.action === 'joinInfo') {
                             playerNames[conn.assignedIndex] = data.name;
-                            
-                            if (numAtuais >= maxHumanos && !jogoIniciando) {
-                                jogoIniciando = true;
-                                setTimeout(dispararInicioDeJogo, 500); 
-                            }
-                        } else if (data.action === 'playCards' && currentPlayer === conn.assignedIndex) {
-                            processarJogada(conn.assignedIndex, data.indices);
-                        } else if (data.action === 'passTurn' && currentPlayer === conn.assignedIndex) {
-                            processarPassagem(conn.assignedIndex);
-                        }
+                            if (numAtuais >= maxHumanos && !jogoIniciando) { jogoIniciando = true; setTimeout(dispararInicioDeJogo, 500); }
+                        } else if (data.action === 'playCards' && currentPlayer === conn.assignedIndex) { processarJogada(conn.assignedIndex, data.indices); } 
+                        else if (data.action === 'passTurn' && currentPlayer === conn.assignedIndex) { processarPassagem(conn.assignedIndex); }
                     });
                 });
             });
-            myPeer.on('error', function(err) { alert("Erro ao criar sala. Talvez este nome de sala já esteja a ser usado por outra pessoa."); document.getElementById('btn-create-room').disabled = false; });
+            myPeer.on('error', function() { alert("Erro ao criar. Sala já em uso."); document.getElementById('btn-create-room').disabled = false; });
         }
 
-        // Lógica de Abandono
+        // Lógica de Desconexão Robusta (Anti-Crash)
         function handlePlayerDrop(idx) {
             if (!gameActive || finishedPlayers.includes(idx)) return;
             
             let remainingActive = [];
-            for(let i=0; i<totalPlayers; i++) {
-                if(i !== idx && !finishedPlayers.includes(i)) remainingActive.push(i);
-            }
+            for(let i=0; i<totalPlayers; i++) { if(i !== idx && !finishedPlayers.includes(i)) remainingActive.push(i); }
             
             if(remainingActive.length > 0) {
-                // Sorteia e distribui as cartas abandonadas de forma secreta
                 let abandonedCards = players[idx].splice(0, players[idx].length);
                 while(abandonedCards.length > 0) {
                     let randomPlayer = remainingActive[Math.floor(Math.random() * remainingActive.length)];
@@ -375,75 +405,53 @@
                 remainingActive.forEach(i => players[i].sort((a, b) => a.power - b.power));
             }
             
-            finishedPlayers.push(idx); 
-            passedPlayers[idx] = true;
-            
-            masterSync(`⚠️ ${playerNames[idx]} saiu! As suas cartas foram redistribuídas de forma secreta.`);
+            finishedPlayers.push(idx); passedPlayers[idx] = true;
+            masterSync(`⚠️ ${playerNames[idx]} caiu! As suas cartas foram redistribuídas.`);
             
             if (currentPlayer === idx) {
-                currentPlayer = (currentPlayer + 1) % totalPlayers;
+                let next = (idx + 1) % totalPlayers;
+                while (finishedPlayers.includes(next)) next = (next + 1) % totalPlayers;
+                currentPlayer = next;
                 setTimeout(processTurn, 2500);
             }
         }
 
         function dispararInicioDeJogo() {
-            numBots = parseInt(document.getElementById('num-bots').value) || 0;
-            numHumans = guestConnections.length + 1; 
-            totalPlayers = numHumans + numBots;
+            numBots = parseInt(document.getElementById('num-bots').value) || 0; numHumans = guestConnections.length + 1; totalPlayers = numHumans + numBots;
             for(let i=0; i<numBots; i++) playerNames.push(`BOT ${i+1}`);
-            
             SFX.start(); 
-            guestConnections.forEach(conn => {
-                conn.send({ action: 'initGame', yourIndex: conn.assignedIndex, totalPlayers: totalPlayers, names: playerNames });
-            });
-            
-            myPlayerIndex = 0; 
-            initiateDraw();
+            guestConnections.forEach(conn => { conn.send({ action: 'initGame', yourIndex: conn.assignedIndex, totalPlayers: totalPlayers, names: playerNames, voiceLink: voiceLinkGlobal }); });
+            myPlayerIndex = 0; initiateDraw();
         }
 
-        // --- SISTEMA DE REDE: CONVIDADO ---
+        // --- CONVIDADO ---
         function conectarAoHost() {
             const roomName = document.getElementById('join-code').value.toUpperCase().trim();
             if(!roomName) { alert("Digite a sala!"); return; }
-
             let myName = document.getElementById('player-name').value || "Amigo";
             document.getElementById('guest-status').innerText = "A procurar sala...";
 
             myPeer = new Peer();
-            myPeer.on('open', function(id) {
-                isHost = false;
-                connToHost = myPeer.connect(roomName);
-                
+            myPeer.on('open', function() {
+                isHost = false; connToHost = myPeer.connect(roomName);
                 connToHost.on('open', function() {
-                    document.getElementById('guest-status').innerHTML = `✅ Conectado!<br><span style="font-size:12px; color:#fff;">A aguardar que todos entrem para começar...</span>`;
+                    document.getElementById('guest-status').innerHTML = `✅ Ligado!<br><span style="font-size:12px; color:#fff;">Aguarde todos para começar...</span>`;
                     connToHost.send({ action: 'joinInfo', name: myName });
 
                     connToHost.on('data', function(data) {
-                        if (data.action === 'initGame') {
-                            SFX.start(); 
-                            myPlayerIndex = data.yourIndex;
-                            totalPlayers = data.totalPlayers;
-                            playerNames = data.names;
-                            document.getElementById('setup-screen').style.display = 'none';
-                            document.getElementById('game-screen').style.display = 'flex';
-                            document.body.className = 'theme-table';
+                        if (data.action === 'ping') { connToHost.send({action: 'pong'}); }
+                        else if (data.action === 'initGame') {
+                            SFX.start(); voiceLinkGlobal = data.voiceLink; myPlayerIndex = data.yourIndex; totalPlayers = data.totalPlayers; playerNames = data.names;
+                            document.getElementById('setup-screen').style.display = 'none'; document.getElementById('game-screen').style.display = 'flex'; document.body.className = 'theme-table';
                             buildOpponentsUI();
-                        } else if (data.action === 'syncState') {
-                            atualizarPelaRede(data);
-                        } else if (data.action === 'comboFX') {
-                            triggerComboFX(data.count, data.power);
-                        } else if (data.action === 'clearTable') {
-                            animarLimpezaMesa();
-                        } else if (data.action === 'showDraw') {
-                            document.getElementById('draw-screen').style.display = 'flex';
-                            document.getElementById('draw-text').innerText = data.text;
-                        } else if (data.action === 'hideDraw') {
-                            document.getElementById('draw-screen').style.display = 'none';
-                        } else if (data.action === 'sfxPlayCard') {
-                            if (data.playerIndex !== myPlayerIndex) SFX.playCard(); 
-                        } else if (data.action === 'sfxPass') {
-                            if (data.playerIndex !== myPlayerIndex) SFX.pass(); 
-                        }
+                        } else if (data.action === 'syncState') { atualizarPelaRede(data); } 
+                        else if (data.action === 'comboFX') { triggerComboFX(data.count, data.power); } 
+                        else if (data.action === 'clearTable') { animarLimpezaMesa(); } 
+                        else if (data.action === 'showDraw') { document.getElementById('draw-screen').style.display = 'flex'; document.getElementById('draw-text').innerText = data.text; } 
+                        else if (data.action === 'hideDraw') { document.getElementById('draw-screen').style.display = 'none'; } 
+                        else if (data.action === 'sfxPlayCard') { if (data.playerIndex !== myPlayerIndex) SFX.playCard(); } 
+                        else if (data.action === 'sfxPass') { if (data.playerIndex !== myPlayerIndex) SFX.pass(); }
+                        else if (data.action === 'animPrincesa') { animarPrincesa(data.estado); }
                     });
                 });
                 connToHost.on('error', function() { alert("Falha ao ligar à sala."); });
@@ -453,7 +461,6 @@
         function atualizarPelaRede(data) {
             tableCombo = data.tableCombo; tableOwner = data.tableOwner; currentPlayer = data.currentPlayer;
             passedPlayers = data.passedPlayers; finishedPlayers = data.finishedPlayers; tableHistory = data.tableHistory;
-            
             if (data.myHand) { players[myPlayerIndex] = data.myHand; renderHand(); }
             
             const container = document.getElementById('opponents-container'); container.innerHTML = '';
@@ -463,21 +470,17 @@
                 div.innerHTML = `${playerNames[i]} <br><span style="font-weight:normal;">${data.cardCounts[i]} cartas</span> <div class="rank-badge" style="${finishedPlayers.includes(i)?'display:block':'none'}">${getRankName(finishedPlayers.indexOf(i))}</div>`;
                 container.appendChild(div);
             }
-            
             updateTableUI(data.tableMsg);
-
             if(finishedPlayers.length >= totalPlayers - 1) { showEndScreen(); return; }
 
             if (currentPlayer === myPlayerIndex && !finishedPlayers.includes(myPlayerIndex)) {
                 document.getElementById('pass-btn').disabled = false; validateSelection();
-            } else {
-                document.getElementById('play-btn').disabled = true; document.getElementById('pass-btn').disabled = true;
-            }
+            } else { document.getElementById('play-btn').disabled = true; document.getElementById('pass-btn').disabled = true; }
         }
 
-        // === MOTOR DO JOGO DE CARTAS (HOST) ===
+        // === MOTOR DE CARTAS (HOST) ===
         const svgFiltro = `<svg viewBox="0 0 32 32"><path d="M10,8 Q16,5 22,8 L24,18 Q16,22 8,18 Z" fill="#c04e01"/><path d="M10,8 Q16,11 22,8 L20,4 Q16,2 12,4 Z" fill="#8a3600"/><rect x="14" y="2" width="4" height="2" fill="#555"/></svg>`;
-        const svgChinelo = `<svg viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#00a8ff"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#fff" stroke-width="2" fill="none"/><circle cx="16" cy="10" r="1.5" fill="#fff"/><circle cx="10" cy="18" r="1.5" fill="#fff"/><circle cx="22" cy="18" r="1.5" fill="#fff"/></svg>`;
+        const svgChinelo = `<svg viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#009c3b"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#ffdf00" stroke-width="2.5" fill="none"/></svg>`;
         const svgCadeira = `<svg viewBox="0 0 32 32"><path d="M10,4 L22,4 L20,16 L12,16 Z" fill="#fbc531"/><rect x="10" y="16" width="12" height="2" fill="#e1b12c"/><rect x="11" y="18" width="2" height="10" fill="#fbc531"/><rect x="19" y="18" width="2" height="10" fill="#fbc531"/></svg>`;
         const svgPapagaio = `<svg viewBox="0 0 32 32"><path d="M16,4 C20,4 22,8 22,12 C22,20 16,28 12,30 Z" fill="#4cd137"/><path d="M22,8 C26,8 28,12 22,14 Z" fill="#e84118"/><circle cx="20" cy="8" r="1" fill="#000"/><path d="M14,14 C12,18 8,20 6,18 Z" fill="#fbc531"/></svg>`;
         const svgCaramelo = `<svg viewBox="0 0 32 32"><rect x="6" y="12" width="20" height="12" fill="#d2691e" rx="4"/><circle cx="12" cy="10" r="4" fill="#d2691e"/><circle cx="10" cy="9" r="1" fill="#000"/><circle cx="14" cy="9" r="1" fill="#000"/></svg>`;
@@ -489,20 +492,19 @@
         let passedPlayers = [], selectedIndices = [], tableHistory = [];
         let gameActive = false, finishedPlayers = [];
 
-        function broadcast(action, data) { if(!isHost) return; guestConnections.forEach(conn => conn.send({ action, ...data })); }
+        function broadcast(action, data) { if(!isHost) return; guestConnections.forEach(conn => { if(conn.open) conn.send({ action, ...data }); }); }
         
         function masterSync(tableMsg = null) {
             if(!isHost) return;
             let cardCounts = players.map(p => p.length);
             let stateData = { action: 'syncState', tableCombo, tableOwner, currentPlayer, passedPlayers, finishedPlayers, tableHistory, cardCounts, tableMsg };
-            guestConnections.forEach(conn => { conn.send({ ...stateData, myHand: players[conn.assignedIndex] }); });
+            guestConnections.forEach(conn => { if(conn.open) conn.send({ ...stateData, myHand: players[conn.assignedIndex] }); });
             atualizarPelaRede({ ...stateData, myHand: players[0] });
         }
 
         function initiateDraw() {
             document.getElementById('setup-screen').style.display = 'none'; document.getElementById('game-screen').style.display = 'flex'; document.body.className = 'theme-table';
-            let spins = 0;
-            let drawInterval = setInterval(() => {
+            let spins = 0; let drawInterval = setInterval(() => {
                 let random = Math.floor(Math.random() * totalPlayers); let txt = `A sortear...\n\n${playerNames[random]}`;
                 document.getElementById('draw-screen').style.display = 'flex'; document.getElementById('draw-text').innerText = txt;
                 broadcast('showDraw', {text: txt}); spins++;
@@ -531,17 +533,11 @@
             if (!gameActive) return;
             if (finishedPlayers.length >= totalPlayers - 1) { for (let i = 0; i < totalPlayers; i++) if (!finishedPlayers.includes(i)) finishedPlayers.push(i); gameActive = false; masterSync(); return; }
             let activeCount = 0; for (let i = 0; i < totalPlayers; i++) if (!finishedPlayers.includes(i) && !passedPlayers[i]) activeCount++;
-            if (activeCount === 0 || (activeCount === 1 && tableCombo !== null && !passedPlayers[tableOwner])) { setTimeout(limparMesaEAvancar, 600); return; }
+            if (activeCount === 0 || (activeCount === 1 && tableCombo !== null && !passedPlayers[tableOwner])) { setTimeout(() => limparMesaEAvancar(null), 600); return; }
             if (passedPlayers[currentPlayer] || finishedPlayers.includes(currentPlayer)) { currentPlayer = (currentPlayer + 1) % totalPlayers; processTurn(); return; }
             
             let isBot = currentPlayer >= guestConnections.length + 1;
-            if (isBot) { 
-                masterSync(`${playerNames[currentPlayer]} a pensar...`); 
-                setTimeout(botLogic, 1200); 
-            } else { 
-                // Sem enviar string de "A SUA VEZ". O telemóvel renderiza de forma didática.
-                masterSync(); 
-            }
+            if (isBot) { masterSync(); setTimeout(botLogic, 1200); } else { masterSync(); }
         }
 
         function renderHand() {
@@ -578,8 +574,20 @@
             tableCombo = { power: Number(playedCards[0].power), count: playedCards.length, cards: playedCards }; tableOwner = playerIdx; tableHistory.push({ playerIndex: playerIdx, cards: [...playedCards] });
             indices.sort((a,b) => b - a).forEach(i => players[playerIdx].splice(i, 1)); passedPlayers.fill(false); 
             if (players[playerIdx].length === 0 && !finishedPlayers.includes(playerIdx)) { finishedPlayers.push(playerIdx); }
-            triggerComboFX(playedCards.length, playedCards[0].power); broadcast('comboFX', {count: playedCards.length, power: playedCards[0].power});
-            currentPlayer = (currentPlayer + 1) % totalPlayers; masterSync(); setTimeout(processTurn, 800);
+            
+            // Lógica Especial da Carta "2"
+            let isLimpaMesa = playedCards.some(c => c.valueStr === '2');
+            let powerVisual = isLimpaMesa ? 13 : playedCards[0].power;
+            
+            triggerComboFX(playedCards.length, powerVisual); 
+            broadcast('comboFX', {count: playedCards.length, power: powerVisual});
+
+            if (isLimpaMesa) {
+                masterSync(`${playerNames[playerIdx]} jogou um 2! A limpar a mesa...`);
+                setTimeout(() => limparMesaEAvancar(playerIdx), 1500); // 1.5s para o efeito
+            } else {
+                currentPlayer = (currentPlayer + 1) % totalPlayers; masterSync(); setTimeout(processTurn, 800);
+            }
         }
 
         function processarPassagem(playerIdx) { broadcast('sfxPass', { playerIndex: playerIdx }); if (playerIdx !== 0 && isHost) SFX.pass(); passedPlayers[playerIdx] = true; currentPlayer = (currentPlayer + 1) % totalPlayers; masterSync(); setTimeout(processTurn, 500); }
@@ -593,20 +601,28 @@
             if (!played) { processarPassagem(currentPlayer); }
         }
 
-        function limparMesaEAvancar() {
+        function limparMesaEAvancar(forcedNext = null) {
             animarLimpezaMesa(); broadcast('clearTable', {});
             setTimeout(() => { tableCombo = null; tableHistory = []; passedPlayers.fill(false);
-                if (finishedPlayers.includes(tableOwner)) { let next = (tableOwner + 1) % totalPlayers; while (finishedPlayers.includes(next)) next = (next + 1) % totalPlayers; currentPlayer = next; } else { currentPlayer = tableOwner; }
-                masterSync("MESA LIMPA! NOVA RODADA."); setTimeout(processTurn, 1000); 
+                if (forcedNext !== null) {
+                    let next = forcedNext; while (finishedPlayers.includes(next)) next = (next + 1) % totalPlayers; currentPlayer = next;
+                } else {
+                    if (finishedPlayers.includes(tableOwner)) { let next = (tableOwner + 1) % totalPlayers; while (finishedPlayers.includes(next)) next = (next + 1) % totalPlayers; currentPlayer = next; } else { currentPlayer = tableOwner; }
+                }
+                masterSync("MESA LIMPA! JOGUE À VONTADE."); setTimeout(processTurn, 1000); 
             }, 500);
         }
 
         function triggerComboFX(count, power) {
             const table = document.getElementById('table-card'); const comboText = document.getElementById('combo-text-effect'); const shockwave = document.getElementById('shockwave');
             table.className = 'table-cards-container'; document.body.classList.remove('bg-heat-1', 'bg-heat-2', 'bg-heat-3', 'ultimate-active');
-            if (power >= 13) { table.classList.add('heat-3'); document.body.classList.add('bg-heat-3'); } else if (power >= 11) { table.classList.add('heat-2'); document.body.classList.add('bg-heat-2'); } else if (power >= 8) { table.classList.add('heat-1'); document.body.classList.add('bg-heat-1'); }
-            if (count === 3) { comboText.innerText = "COMBO!"; comboText.style.animation = 'comboText 0.8s forwards'; table.classList.add('shake-once'); SFX.combo(); setTimeout(() => { comboText.style.animation = ''; table.classList.remove('shake-once'); }, 800); } 
-            else if (count >= 4) { comboText.innerText = "ULTIMATE!"; comboText.style.animation = 'comboText 1s forwards'; document.body.classList.add('ultimate-active', 'shake-once'); shockwave.style.animation = 'shockwave 0.6s forwards'; SFX.ultimate(); setTimeout(() => { document.body.classList.remove('ultimate-active', 'shake-once'); shockwave.style.animation = ''; }, 1000); }
+            
+            if (power >= 13) { table.classList.add('heat-3'); document.body.classList.add('bg-heat-3'); animarPrincesa('shock'); broadcast('animPrincesa', {estado:'shock'}); } 
+            else if (power >= 11) { table.classList.add('heat-2'); document.body.classList.add('bg-heat-2'); } 
+            else if (power >= 8) { table.classList.add('heat-1'); document.body.classList.add('bg-heat-1'); }
+            
+            if (count === 3 && power < 13) { animarPrincesa('happy'); broadcast('animPrincesa', {estado:'happy'}); comboText.innerText = "COMBO!"; comboText.style.animation = 'comboText 0.8s forwards'; table.classList.add('shake-once'); SFX.combo(); setTimeout(() => { comboText.style.animation = ''; table.classList.remove('shake-once'); }, 800); } 
+            else if (power >= 13 || count >= 4) { comboText.innerText = "ULTIMATE!"; comboText.style.animation = 'comboText 1s forwards'; document.body.classList.add('ultimate-active', 'shake-once'); shockwave.style.animation = 'shockwave 0.6s forwards'; SFX.ultimate(); setTimeout(() => { document.body.classList.remove('ultimate-active', 'shake-once'); shockwave.style.animation = ''; }, 1000); }
         }
 
         function animarLimpezaMesa() { const playedCards = document.querySelectorAll('.played-card'); playedCards.forEach(card => card.classList.add('sweep-animation')); document.getElementById('table-card').className = 'table-cards-container'; document.body.className = 'theme-table'; }
@@ -619,18 +635,22 @@
             let statusText = msgOverride;
             if(!statusText) {
                 if(currentPlayer === myPlayerIndex) {
-                    statusText = tableCombo ? `A SUA VEZ! Apenas ${tableCombo.count} carta(s) maiores que ${tableCombo.cards[0].valueStr}` : "A SUA VEZ! Mesa livre, jogue à vontade.";
+                    statusText = tableCombo ? `A SUA VEZ! Jogue ${tableCombo.count} carta(s) maiores que ${tableCombo.cards[0].valueStr}` : "A SUA VEZ! Jogue qualquer carta.";
                 } else {
                     statusText = `A aguardar por ${playerNames[currentPlayer]}...`;
                 }
             }
 
             if (tableCombo) { 
-                tableCombo.cards.forEach((card, idx) => { let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; cardEl.style.zIndex = idx; cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); }); 
+                const rotacoes = [-10, 10, -20, 20]; const transX = [-30, 30, -50, 50]; // Espalha as cartas no centro
+                tableCombo.cards.forEach((card, idx) => { 
+                    let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; 
+                    cardEl.style.zIndex = idx; 
+                    if(tableCombo.count > 1) { cardEl.style.transform = `rotate(${rotacoes[idx % 4]}deg) translateX(${transX[idx % 4]}px)`; }
+                    cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); 
+                }); 
                 ownerDiv.innerText = `Líder: ${playerNames[tableOwner]}`; 
-            } else { 
-                ownerDiv.innerText = ""; 
-            }
+            } else { ownerDiv.innerText = ""; }
             msgDiv.innerText = statusText;
         }
 
@@ -641,7 +661,7 @@
         
         function startRematch() { if(!isHost) return; buildDeck(); shuffleDeck(); players = Array.from({length: totalPlayers}, () => []); dealCards(); for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); let pres = finishedPlayers[0]; let scum = finishedPlayers[finishedPlayers.length - 1]; let scumBest = players[scum].pop(); let presWorst = players[pres].shift(); players[pres].push(scumBest); players[scum].push(presWorst); if (totalPlayers >= 4) { let vice = finishedPlayers[1]; let pen = finishedPlayers[finishedPlayers.length - 2]; let penBest = players[pen].pop(); let viceWorst = players[vice].shift(); players[vice].push(penBest); players[pen].push(viceWorst); } for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); currentPlayer = scum; finishedPlayers = []; passedPlayers.fill(false); tableCombo = null; tableHistory = []; tableOwner = -1; gameActive = true; document.getElementById('end-screen').style.display = 'none'; broadcast('hideEndScreen', {}); masterSync("Troca Concluída! O Mendigo Começa."); setTimeout(processTurn, 1500); }
         
-        function criarChuvaDeChinelos() { const rainContainer = document.getElementById('rain-container'); for (let i = 0; i < 30; i++) { let chinelo = document.createElement('div'); chinelo.className = 'chinelo-rain'; let startLeft = Math.random() * 150 - 50; let animationDuration = Math.random() * 8 + 4; let animationDelay = Math.random() * 10; let scale = Math.random() * 0.5 + 0.3; let opacity = Math.random() * 0.4 + 0.1; chinelo.innerHTML = `<svg width="40" height="40" style="transform: scale(${scale})"><use href="#icon-chinelo"></use></svg>`; chinelo.style.left = `${startLeft}vw`; chinelo.style.animationDuration = `${animationDuration}s`; chinelo.style.animationDelay = `${animationDelay}s`; chinelo.style.opacity = opacity; rainContainer.appendChild(chinelo); } }
+        function criarChuvaDeChinelos() { const rainContainer = document.getElementById('rain-container'); for (let i = 0; i < 30; i++) { let chinelo = document.createElement('div'); chinelo.className = 'chinelo-rain'; let startLeft = Math.random() * 150 - 50; let animationDuration = Math.random() * 8 + 4; let animationDelay = Math.random() * 10; let scale = Math.random() * 0.8 + 0.8; let opacity = Math.random() * 0.4 + 0.1; chinelo.innerHTML = `<svg width="40" height="40" style="transform: scale(${scale})"><use href="#icon-chinelo"></use></svg>`; chinelo.style.left = `${startLeft}vw`; chinelo.style.animationDuration = `${animationDuration}s`; chinelo.style.animationDelay = `${animationDelay}s`; chinelo.style.opacity = opacity; rainContainer.appendChild(chinelo); } }
     </script>
 </body>
 </html>
