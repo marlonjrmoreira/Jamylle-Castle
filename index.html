@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -134,8 +134,15 @@
         @media (max-width: 768px) {
             .card, .played-card { width: 85px; height: 121px; border-radius: 8px; }
             .hand { height: 135px; justify-content: flex-start; } 
-            .hand .card { margin-left: -50px; } .hand .card:first-child { margin-left: auto; } .hand .card:last-child { margin-right: auto; }
-            .hand .card.selected { transform: translateY(-15px); outline-width: 2px; }
+            
+            /* ATUALIZAÇÃO NO ESPAÇAMENTO PARA TELEMÓVEL: DE -50px PARA -30px (MAIS FÁCIL CLICAR) */
+            .hand .card { margin-left: -30px; } 
+            .hand .card:first-child { margin-left: auto; } 
+            .hand .card:last-child { margin-right: auto; }
+            
+            /* DESTAQUE MAIOR QUANDO SELECIONADA NO TELEMÓVEL */
+            .hand .card.selected { transform: translateY(-30px); outline-width: 3px; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
+            
             .corner .value { font-size: 18px; } .corner .mini-suit { font-size: 14px; }
             .top-left { top: 4px; left: 6px; } .bottom-right { bottom: 4px; right: 6px; }
             .center-suit { font-size: 45px; } .face { width: 55px; height: 75px; border-width: 1px; } .face-art { font-size: 38px; }
@@ -168,11 +175,11 @@
         <div class="lobby-container">
             <div class="title-box"><h1>JAMYLLE'S<br>CASTLE</h1><p>ONLINE P2P MULTIPLAYER</p></div>
             <div class="avatar-selection"><button class="avatar-btn" onclick="mudarAvatar(-1)">◀</button><div class="avatar-display" id="avatar-display"><svg width="40" height="40"><use href="#icon-chinelo"></use></svg></div><button class="avatar-btn" onclick="mudarAvatar(1)">▶</button></div>
-            <div class="input-group"><label for="player-name">SEU NICKNAME</label><input type="text" id="player-name" placeholder="Ex: MagoSupremo" maxlength="12"></div>
+            <div class="input-group"><label for="player-name">O SEU NICKNAME</label><input type="text" id="player-name" placeholder="Ex: MagoSupremo" maxlength="12"></div>
 
             <div id="p2p-options">
                 <button class="btn-action btn-create" onclick="mostrarPainelHost()">👑 CRIAR SALA (SER HOST)</button>
-                <button class="btn-action btn-join" onclick="mostrarPainelJoin()">⚔️ ENTRAR EM UMA SALA</button>
+                <button class="btn-action btn-join" onclick="mostrarPainelJoin()">⚔️ ENTRAR NUMA SALA</button>
             </div>
 
             <div id="host-panel">
@@ -206,15 +213,15 @@
         </div>
     </div>
 
-    <div id="draw-screen" class="overlay"><h2 style="font-family: 'Press Start 2P', cursive; color: #ffeb3b; font-size: 16px; line-height: 1.5;" id="draw-text">Sorteando...</h2></div>
+    <div id="draw-screen" class="overlay"><h2 style="font-family: 'Press Start 2P', cursive; color: #ffeb3b; font-size: 16px; line-height: 1.5;" id="draw-text">A sortear...</h2></div>
     <div id="history-modal" class="overlay" onclick="this.style.display='none'"><div class="box-panel" onclick="event.stopPropagation()"><h2>Histórico da Mesa</h2><div id="history-list"></div><div style="text-align: center; margin-top: 20px;"><button onclick="document.getElementById('history-modal').style.display='none'" style="padding: 10px 25px; background: #f44336; color: white; border: 2px solid white; border-radius: 20px; font-weight: bold; cursor: pointer;">FECHAR</button></div></div></div>
-    <div id="end-screen" class="overlay"><div class="box-panel"><h2>Fim da Partida!</h2><ul id="rank-list" class="rank-list"></ul><div style="text-align: center; margin-top: 20px;"><button onclick="startRematch()" style="padding: 12px 20px; background: #2e7d32; color: white; border: 2px solid white; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 14px; display:none;" id="btn-rematch">🔄 REVANCHE</button><p id="rematch-guest-msg" style="font-size:12px; display:none;">Aguarde o anfitrião iniciar a revanche.</p></div></div></div>
+    <div id="end-screen" class="overlay"><div class="box-panel"><h2>Fim da Partida!</h2><ul id="rank-list" class="rank-list"></ul><div style="text-align: center; margin-top: 20px;"><button onclick="startRematch()" style="padding: 12px 20px; background: #2e7d32; color: white; border: 2px solid white; border-radius: 20px; font-weight: bold; cursor: pointer; font-size: 14px; display:none;" id="btn-rematch">🔄 NOVA PARTIDA</button><p id="rematch-guest-msg" style="font-size:12px; display:none;">A aguardar que o anfitrião inicie a nova partida.</p></div></div></div>
 
     <div id="game-screen">
         <div class="opponents-container" id="opponents-container"></div>
         <div class="center-table">
             <div class="table-cards-container" id="table-card" onclick="showHistory()">
-                <div id="status-message">Distribuindo...</div>
+                <div id="status-message">A distribuir...</div>
                 <div id="table-owner"></div>
                 <div id="table-hint">👆 Toque para ver histórico</div>
             </div>
@@ -268,7 +275,6 @@
         function mostrarPainelHost() { initAudio(); document.getElementById('p2p-options').style.display = 'none'; document.getElementById('host-panel').style.display = 'block'; }
         function mostrarPainelJoin() { initAudio(); document.getElementById('p2p-options').style.display = 'none'; document.getElementById('join-panel').style.display = 'block'; }
 
-        // MÁGICA DO LINK DE CONVITE NO CARREGAMENTO DA PÁGINA
         window.onload = () => {
             criarChuvaDeChinelos();
             const urlParams = new URLSearchParams(window.location.search);
@@ -281,9 +287,9 @@
 
         function copiarLinkConvite(link) {
             navigator.clipboard.writeText(link).then(() => {
-                alert("✅ Link copiado com sucesso! Pode colar no WhatsApp da galera.");
+                alert("✅ Link copiado com sucesso! Pode colar no WhatsApp da malta.");
             }).catch(err => {
-                alert("Erro ao copiar o link. Mas você pode copiar este endereço: " + link);
+                alert("Erro ao copiar o link. Mas pode copiar este endereço: " + link);
             });
         }
 
@@ -296,7 +302,7 @@
             playerNames = [myName];
             let maxHumanos = parseInt(document.getElementById('num-humans').value) || 2;
 
-            document.getElementById('host-status').innerText = "Abrindo portas...";
+            document.getElementById('host-status').innerText = "A abrir portas...";
             document.getElementById('btn-create-room').disabled = true;
 
             myPeer = new Peer(roomName);
@@ -307,15 +313,14 @@
                 
                 document.getElementById('host-status').innerHTML = `✅ Sala aberta!<br>
                     <button onclick="copiarLinkConvite('${linkMistico}')" style="margin-top:10px; padding:10px; background:#e67e22; border:2px solid white; color:white; border-radius:5px; cursor:pointer; font-family:'Press Start 2P', cursive; font-size:8px; width:100%;">📋 COPIAR LINK CONVITE</button><br>
-                    <br><span style="font-size:12px; color:#fff;" id="contador-amigos">Aguardando... (1 de ${maxHumanos})</span>`;
+                    <br><span style="font-size:12px; color:#fff;" id="contador-amigos">A aguardar... (1 de ${maxHumanos})</span>`;
                 
-                // Se o Host colocou apenas "1" humano, o jogo já dispara
                 if(maxHumanos <= 1) { dispararInicioDeJogo(); }
             });
 
             myPeer.on('connection', function(conn) {
                 conn.on('open', function() {
-                    if (jogoIniciando) return; // Evita que alguém entre depois que já deu start
+                    if (jogoIniciando) return; 
 
                     let nextIndex = guestConnections.length + 1;
                     conn.assignedIndex = nextIndex;
@@ -325,19 +330,21 @@
                     let numAtuais = guestConnections.length + 1;
                     
                     if(document.getElementById('contador-amigos')) {
-                        document.getElementById('contador-amigos').innerText = `Aguardando... (${numAtuais} de ${maxHumanos})`;
+                        document.getElementById('contador-amigos').innerText = `A aguardar... (${numAtuais} de ${maxHumanos})`;
                     }
+
+                    // Detetor de Abandono (Desconexão)
+                    conn.on('close', function() { handlePlayerDrop(conn.assignedIndex); });
+                    conn.on('error', function() { handlePlayerDrop(conn.assignedIndex); });
                     
                     conn.on('data', function(data) {
                         if (data.action === 'joinInfo') {
                             playerNames[conn.assignedIndex] = data.name;
                             
-                            // === DISPARO AUTOMÁTICO QUANDO ENCHE A SALA ===
                             if (numAtuais >= maxHumanos && !jogoIniciando) {
                                 jogoIniciando = true;
-                                setTimeout(dispararInicioDeJogo, 500); // Dá meio segundo pra garantir o nome de todos
+                                setTimeout(dispararInicioDeJogo, 500); 
                             }
-
                         } else if (data.action === 'playCards' && currentPlayer === conn.assignedIndex) {
                             processarJogada(conn.assignedIndex, data.indices);
                         } else if (data.action === 'passTurn' && currentPlayer === conn.assignedIndex) {
@@ -346,7 +353,37 @@
                     });
                 });
             });
-            myPeer.on('error', function(err) { alert("Erro ao criar sala. Talvez este nome de sala já esteja sendo usado por outra pessoa na internet."); document.getElementById('btn-create-room').disabled = false; });
+            myPeer.on('error', function(err) { alert("Erro ao criar sala. Talvez este nome de sala já esteja a ser usado por outra pessoa."); document.getElementById('btn-create-room').disabled = false; });
+        }
+
+        // Lógica de Abandono
+        function handlePlayerDrop(idx) {
+            if (!gameActive || finishedPlayers.includes(idx)) return;
+            
+            let remainingActive = [];
+            for(let i=0; i<totalPlayers; i++) {
+                if(i !== idx && !finishedPlayers.includes(i)) remainingActive.push(i);
+            }
+            
+            if(remainingActive.length > 0) {
+                // Sorteia e distribui as cartas abandonadas de forma secreta
+                let abandonedCards = players[idx].splice(0, players[idx].length);
+                while(abandonedCards.length > 0) {
+                    let randomPlayer = remainingActive[Math.floor(Math.random() * remainingActive.length)];
+                    players[randomPlayer].push(abandonedCards.pop());
+                }
+                remainingActive.forEach(i => players[i].sort((a, b) => a.power - b.power));
+            }
+            
+            finishedPlayers.push(idx); 
+            passedPlayers[idx] = true;
+            
+            masterSync(`⚠️ ${playerNames[idx]} saiu! As suas cartas foram redistribuídas de forma secreta.`);
+            
+            if (currentPlayer === idx) {
+                currentPlayer = (currentPlayer + 1) % totalPlayers;
+                setTimeout(processTurn, 2500);
+            }
         }
 
         function dispararInicioDeJogo() {
@@ -370,7 +407,7 @@
             if(!roomName) { alert("Digite a sala!"); return; }
 
             let myName = document.getElementById('player-name').value || "Amigo";
-            document.getElementById('guest-status').innerText = "Buscando sala...";
+            document.getElementById('guest-status').innerText = "A procurar sala...";
 
             myPeer = new Peer();
             myPeer.on('open', function(id) {
@@ -378,7 +415,7 @@
                 connToHost = myPeer.connect(roomName);
                 
                 connToHost.on('open', function() {
-                    document.getElementById('guest-status').innerHTML = `✅ Conectado!<br><span style="font-size:12px; color:#fff;">Aguarde todos entrarem para o jogo começar...</span>`;
+                    document.getElementById('guest-status').innerHTML = `✅ Conectado!<br><span style="font-size:12px; color:#fff;">A aguardar que todos entrem para começar...</span>`;
                     connToHost.send({ action: 'joinInfo', name: myName });
 
                     connToHost.on('data', function(data) {
@@ -409,7 +446,7 @@
                         }
                     });
                 });
-                connToHost.on('error', function() { alert("Falha ao conectar."); });
+                connToHost.on('error', function() { alert("Falha ao ligar à sala."); });
             });
         }
 
@@ -426,6 +463,7 @@
                 div.innerHTML = `${playerNames[i]} <br><span style="font-weight:normal;">${data.cardCounts[i]} cartas</span> <div class="rank-badge" style="${finishedPlayers.includes(i)?'display:block':'none'}">${getRankName(finishedPlayers.indexOf(i))}</div>`;
                 container.appendChild(div);
             }
+            
             updateTableUI(data.tableMsg);
 
             if(finishedPlayers.length >= totalPlayers - 1) { showEndScreen(); return; }
@@ -452,6 +490,7 @@
         let gameActive = false, finishedPlayers = [];
 
         function broadcast(action, data) { if(!isHost) return; guestConnections.forEach(conn => conn.send({ action, ...data })); }
+        
         function masterSync(tableMsg = null) {
             if(!isHost) return;
             let cardCounts = players.map(p => p.length);
@@ -464,7 +503,7 @@
             document.getElementById('setup-screen').style.display = 'none'; document.getElementById('game-screen').style.display = 'flex'; document.body.className = 'theme-table';
             let spins = 0;
             let drawInterval = setInterval(() => {
-                let random = Math.floor(Math.random() * totalPlayers); let txt = `Sorteando...\n\n${playerNames[random]}`;
+                let random = Math.floor(Math.random() * totalPlayers); let txt = `A sortear...\n\n${playerNames[random]}`;
                 document.getElementById('draw-screen').style.display = 'flex'; document.getElementById('draw-text').innerText = txt;
                 broadcast('showDraw', {text: txt}); spins++;
                 if (spins > 20) {
@@ -496,8 +535,13 @@
             if (passedPlayers[currentPlayer] || finishedPlayers.includes(currentPlayer)) { currentPlayer = (currentPlayer + 1) % totalPlayers; processTurn(); return; }
             
             let isBot = currentPlayer >= guestConnections.length + 1;
-            if (isBot) { masterSync(`${playerNames[currentPlayer]} pensando...`); setTimeout(botLogic, 1200); 
-            } else { let msg = tableCombo ? `Apenas ${tableCombo.count} carta(s) > ${tableCombo.cards[0].valueStr}` : "Mesa Livre!"; if(currentPlayer === 0) msg = "SUA VEZ! " + msg; else msg = `Aguardando ${playerNames[currentPlayer]}...`; masterSync(msg); }
+            if (isBot) { 
+                masterSync(`${playerNames[currentPlayer]} a pensar...`); 
+                setTimeout(botLogic, 1200); 
+            } else { 
+                // Sem enviar string de "A SUA VEZ". O telemóvel renderiza de forma didática.
+                masterSync(); 
+            }
         }
 
         function renderHand() {
@@ -567,12 +611,36 @@
 
         function animarLimpezaMesa() { const playedCards = document.querySelectorAll('.played-card'); playedCards.forEach(card => card.classList.add('sweep-animation')); document.getElementById('table-card').className = 'table-cards-container'; document.body.className = 'theme-table'; }
         function generateCardHTML(card) { let isFaceCard = ['J', 'Q', 'K', '★'].includes(card.valueStr); let centerContent = isFaceCard ? `<div class="face"><div class="ornament"></div><div class="face-art">${card.svg}</div></div>` : `<div class="center-suit">${card.svg}</div>`; return `<div class="corner top-left"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>${centerContent}<div class="corner bottom-right"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>`; }
-        function updateTableUI(msgOverride = null) { const tableDiv = document.getElementById('table-card'); const msgDiv = document.getElementById('status-message'); const ownerDiv = document.getElementById('table-owner'); tableDiv.querySelectorAll('.played-card').forEach(e => e.remove()); if (tableCombo) { tableCombo.cards.forEach((card, idx) => { let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; cardEl.style.zIndex = idx; cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); }); let requiredValue = tableCombo.cards[0].valueStr; let plural = tableCombo.count > 1 ? "cartas maiores" : "carta maior"; msgDiv.innerText = msgOverride || `Apenas ${tableCombo.count} ${plural} que ${requiredValue}`; ownerDiv.innerText = `Líder: ${playerNames[tableOwner]}`; } else { msgDiv.innerText = msgOverride || "MESA LIVRE - JOGUE ALGO"; ownerDiv.innerText = ""; } }
+        
+        function updateTableUI(msgOverride = null) { 
+            const tableDiv = document.getElementById('table-card'); const msgDiv = document.getElementById('status-message'); const ownerDiv = document.getElementById('table-owner'); 
+            tableDiv.querySelectorAll('.played-card').forEach(e => e.remove()); 
+            
+            let statusText = msgOverride;
+            if(!statusText) {
+                if(currentPlayer === myPlayerIndex) {
+                    statusText = tableCombo ? `A SUA VEZ! Apenas ${tableCombo.count} carta(s) maiores que ${tableCombo.cards[0].valueStr}` : "A SUA VEZ! Mesa livre, jogue à vontade.";
+                } else {
+                    statusText = `A aguardar por ${playerNames[currentPlayer]}...`;
+                }
+            }
+
+            if (tableCombo) { 
+                tableCombo.cards.forEach((card, idx) => { let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; cardEl.style.zIndex = idx; cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); }); 
+                ownerDiv.innerText = `Líder: ${playerNames[tableOwner]}`; 
+            } else { 
+                ownerDiv.innerText = ""; 
+            }
+            msgDiv.innerText = statusText;
+        }
+
         function buildOpponentsUI() { const container = document.getElementById('opponents-container'); container.innerHTML = ''; for (let i = 0; i < totalPlayers; i++) { let div = document.createElement('div'); div.className = 'opponent-box'; div.id = `player-box-${i}`; div.innerHTML = `${playerNames[i]}`; container.appendChild(div); } }
         function showHistory() { if (tableHistory.length === 0) return; const list = document.getElementById('history-list'); list.innerHTML = ''; [...tableHistory].reverse().forEach((record, index) => { let row = document.createElement('div'); row.className = 'history-row'; let header = document.createElement('div'); header.className = 'history-header'; header.innerText = (index === 0 ? "Última Jogada: " : "Coberto: ") + playerNames[record.playerIndex]; let wrapper = document.createElement('div'); wrapper.className = 'history-cards-wrapper'; let scaleDiv = document.createElement('div'); scaleDiv.className = 'history-card-scale'; record.cards.forEach(card => { let cardEl = document.createElement('div'); cardEl.className = `card suit-${card.suitId}`; cardEl.innerHTML = generateCardHTML(card); scaleDiv.appendChild(cardEl); }); wrapper.appendChild(scaleDiv); row.appendChild(header); row.appendChild(wrapper); list.appendChild(row); }); document.getElementById('history-modal').style.display = 'flex'; }
         
         function showEndScreen() { const list = document.getElementById('rank-list'); list.innerHTML = ''; finishedPlayers.forEach((playerIdx, rankPos) => { let li = document.createElement('li'); let rankStr = getRankName(rankPos); li.innerHTML = `<strong>${rankPos + 1}º - ${rankStr}:</strong> ${playerNames[playerIdx]}`; if (rankPos === 0) li.style.borderLeftColor = "#ffeb3b"; if (rankPos === totalPlayers - 1) li.style.borderLeftColor = "#f44336"; list.appendChild(li); }); document.getElementById('end-screen').style.display = 'flex'; if(isHost) { document.getElementById('btn-rematch').style.display = 'inline-block'; } else { document.getElementById('rematch-guest-msg').style.display = 'block'; } }
-        function startRematch() { if(!isHost) return; buildDeck(); shuffleDeck(); players = Array.from({length: totalPlayers}, () => []); dealCards(); for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); let pres = finishedPlayers[0]; let scum = finishedPlayers[finishedPlayers.length - 1]; let scumBest = players[scum].pop(); let presWorst = players[pres].shift(); players[pres].push(scumBest); players[scum].push(presWorst); if (totalPlayers >= 4) { let vice = finishedPlayers[1]; let pen = finishedPlayers[finishedPlayers.length - 2]; let penBest = players[pen].pop(); let viceWorst = players[vice].shift(); players[vice].push(penBest); players[pen].push(viceWorst); } for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); currentPlayer = scum; finishedPlayers = []; passedPlayers.fill(false); tableCombo = null; tableHistory = []; tableOwner = -1; gameActive = true; document.getElementById('end-screen').style.display = 'none'; broadcast('hideEndScreen', {}); masterSync("Troca Concluída! Mendigo Começa."); setTimeout(processTurn, 1500); }
+        
+        function startRematch() { if(!isHost) return; buildDeck(); shuffleDeck(); players = Array.from({length: totalPlayers}, () => []); dealCards(); for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); let pres = finishedPlayers[0]; let scum = finishedPlayers[finishedPlayers.length - 1]; let scumBest = players[scum].pop(); let presWorst = players[pres].shift(); players[pres].push(scumBest); players[scum].push(presWorst); if (totalPlayers >= 4) { let vice = finishedPlayers[1]; let pen = finishedPlayers[finishedPlayers.length - 2]; let penBest = players[pen].pop(); let viceWorst = players[vice].shift(); players[vice].push(penBest); players[pen].push(viceWorst); } for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); currentPlayer = scum; finishedPlayers = []; passedPlayers.fill(false); tableCombo = null; tableHistory = []; tableOwner = -1; gameActive = true; document.getElementById('end-screen').style.display = 'none'; broadcast('hideEndScreen', {}); masterSync("Troca Concluída! O Mendigo Começa."); setTimeout(processTurn, 1500); }
+        
         function criarChuvaDeChinelos() { const rainContainer = document.getElementById('rain-container'); for (let i = 0; i < 30; i++) { let chinelo = document.createElement('div'); chinelo.className = 'chinelo-rain'; let startLeft = Math.random() * 150 - 50; let animationDuration = Math.random() * 8 + 4; let animationDelay = Math.random() * 10; let scale = Math.random() * 0.5 + 0.3; let opacity = Math.random() * 0.4 + 0.1; chinelo.innerHTML = `<svg width="40" height="40" style="transform: scale(${scale})"><use href="#icon-chinelo"></use></svg>`; chinelo.style.left = `${startLeft}vw`; chinelo.style.animationDuration = `${animationDuration}s`; chinelo.style.animationDelay = `${animationDelay}s`; chinelo.style.opacity = opacity; rainContainer.appendChild(chinelo); } }
     </script>
 </body>
