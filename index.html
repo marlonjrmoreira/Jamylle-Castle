@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jamylle's Castle - Presidente Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
     <style>
-        /* === RESET E ESTRUTURA BÁSICA === */
+        /* === RESET E TEMAS === */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Times New Roman", serif; }
         button, .card, .table-cards-container { touch-action: manipulation; }
-
-        /* === TEMAS DO FUNDO === */
         body { margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: background 0.8s ease; }
         body.theme-lobby { background: linear-gradient(135deg, #1a0b2e 0%, #3b1b54 50%, #150824 100%); }
         body.theme-table { background: radial-gradient(circle at top, #157347, #0b3d25 70%); }
@@ -22,7 +19,7 @@
         @keyframes idleBreathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-8px) scaleY(1.02); } }
         @keyframes floatText { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        /* === TELA DE SETUP (LOBBY JAMYLLE'S CASTLE) === */
+        /* === LOBBY === */
         #setup-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; }
         #rain-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
         .chinelo-rain { position: absolute; top: -50px; opacity: 0.4; animation: fall linear infinite; }
@@ -40,36 +37,31 @@
 
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; font-family: 'Press Start 2P', cursive; font-size: 9px; color: #f1c40f; margin-bottom: 5px; }
-        .input-group input[type="text"] { width: 100%; padding: 10px; background: rgba(0,0,0,0.5); border: 2px solid #555; border-radius: 6px; color: white; font-family: 'VT323', monospace; font-size: 20px; outline: none; text-align: center; }
-        .input-group input[type="text"]:focus { border-color: #f1c40f; }
+        .input-group input[type="text"], .input-group input[type="number"] { width: 100%; padding: 10px; background: rgba(0,0,0,0.5); border: 2px solid #555; border-radius: 6px; color: white; font-family: 'VT323', monospace; font-size: 20px; outline: none; text-align: center; }
+        .input-group input:focus { border-color: #f1c40f; }
 
         #host-panel { display: none; background: rgba(142, 68, 173, 0.2); padding: 15px; border-radius: 8px; border: 1px solid rgba(241, 196, 15, 0.5); margin-bottom: 15px; }
         #join-panel { display: none; margin-bottom: 15px; }
 
         .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .settings-grid .input-group { margin-bottom: 0; text-align: center; }
-        .settings-grid input[type="number"] { width: 80%; padding: 8px; background: rgba(0,0,0,0.8); border: 2px solid #f1c40f; border-radius: 6px; color: white; font-family: 'VT323', monospace; font-size: 16px; text-align: center; }
+        .settings-grid input[type="number"] { font-size: 16px; padding: 8px; }
         .checkbox-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
         .checkbox-container input[type="checkbox"] { transform: scale(1.5); margin-top: 5px; accent-color: #8e44ad; }
 
         .btn-action { width: 100%; padding: 12px; font-family: 'Press Start 2P', cursive; font-size: 10px; cursor: pointer; border-radius: 8px; margin-bottom: 10px; border: 2px solid #fff; transition: transform 0.1s;} .btn-action:active { transform: scale(0.95); }
         .btn-create { background: #8e44ad; color: white; } .btn-join { background: #e67e22; color: white; }
-
         .btn-start { width: 100%; padding: 15px; background: #2ecc71; color: white; border: 3px solid #fff; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 10px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 0 #27ae60;} .btn-start:active { transform: translateY(4px); box-shadow: 0 0 0 #27ae60; }
-        .btn-start:disabled { background: #7f8c8d; border-color: #bdc3c7; box-shadow: 0 4px 0 #95a5a6; cursor: not-allowed; }
-
         .btn-discord { width: 100%; padding: 10px; background: #5865F2; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 9px; cursor: pointer; margin-top: 10px; box-shadow: 0 3px 0 #404eed;} .btn-discord:active { transform: translateY(3px); box-shadow: 0 0 0 #404eed; }
         .status-rede { font-family: 'VT323', monospace; font-size: 16px; color: #f1c40f; margin-top: 10px; }
 
-        /* === A PRINCESA JAMYLLE === */
+        /* === PRINCESA E JOGO GERAL === */
         .jamylle-container { position: absolute; bottom: 20px; right: 30px; z-index: 25; display: flex; flex-direction: column; align-items: center; pointer-events: none; transition: all 0.8s ease; }
         .jamylle-sprite { width: 90px; height: 110px; animation: idleBreathe 2.5s infinite ease-in-out; filter: drop-shadow(0px 10px 5px rgba(0,0,0,0.6)); }
         .jamylle-name { font-family: 'Press Start 2P', cursive; font-size: 8px; color: #fcd82e; margin-top: 10px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; border: 1px solid #fcd82e; animation: floatText 2.5s infinite ease-in-out; }
         body.theme-table .jamylle-container { bottom: 230px; right: 10px; transform: scale(0.85); z-index: 2; }
 
-        /* === MESA DE JOGO === */
         #game-screen { display: none; flex-grow: 1; flex-direction: column; justify-content: space-between; position: relative; padding-top: 10px; z-index: 10; }
-        
         @keyframes shake { 0%, 30%, 60%, 90% { transform: translate(1px, 1px) rotate(0deg); } 10%, 50%, 80%, 100% { transform: translate(-1px, -2px) rotate(-1deg); } 20%, 40%, 70% { transform: translate(-3px, 0px) rotate(1deg); } }
         @keyframes shockwave { 0% { transform: scale(0.5); opacity: 1; border-width: 20px; } 100% { transform: scale(3.5); opacity: 0; border-width: 1px; } }
         @keyframes comboText { 0% { transform: translateY(0); opacity: 0; scale: 0.5; } 20% { transform: translateY(-20px); opacity: 1; scale: 1.2; } 80% { transform: translateY(-40px); opacity: 1; scale: 1; } 100% { transform: translateY(-60px); opacity: 0; } }
@@ -77,7 +69,7 @@
         @keyframes dropCard { 0% { transform: scale(1.5) translateY(-50px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
         @keyframes bgPulse { 0% { background: radial-gradient(circle at top, #5c0d0d, #2a0303 70%); } 100% { background: radial-gradient(circle at top, #8a1414, #4a0606 70%); } }
 
-        .shake-active { animation: shake 0.4s infinite; } .shake-once { animation: shake 0.3s; }
+        .shake-once { animation: shake 0.3s; }
         .sweep-animation { animation: sweepCards 0.5s forwards ease-in; } .drop-animation { animation: dropCard 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         body.bg-heat-1 { background: radial-gradient(circle at top, #4a6315, #2d3d0b 70%); } body.bg-heat-2 { background: radial-gradient(circle at top, #733d15, #421e07 70%); } body.bg-heat-3 { animation: bgPulse 2s infinite alternate; } body.ultimate-active { background: radial-gradient(circle at top, #2e0000, #000000 70%); }
 
@@ -120,13 +112,10 @@
         .face-art { position: relative; font-size: 62px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); display: flex; justify-content: center; align-items: center; }
         .ornament { position: absolute; width: 100%; height: 100%; border: 3px solid rgba(0,0,0,0.1); border-radius: 6px; }
         svg { width: 1em; height: 1em; }
-
         .hand .card { margin-left: -90px; } .hand .card:first-child { margin-left: 0; }
         .hand .card.selected { transform: translateY(-25px); outline: 3px solid #ffeb3b; box-shadow: 0 15px 30px rgba(0,0,0,0.5); z-index: 10; }
         .played-card { position: absolute; margin-left: 0; cursor: default; }
-        .played-card:nth-child(2) { transform: rotate(4deg) translate(8px, -4px); }
-        .played-card:nth-child(3) { transform: rotate(-5deg) translate(-10px, 8px); }
-        .played-card:nth-child(4) { transform: rotate(7deg) translate(14px, 0); }
+        .played-card:nth-child(2) { transform: rotate(4deg) translate(8px, -4px); } .played-card:nth-child(3) { transform: rotate(-5deg) translate(-10px, 8px); } .played-card:nth-child(4) { transform: rotate(7deg) translate(14px, 0); }
 
         /* === MODAIS === */
         .overlay { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; flex-direction: column; align-items: center; justify-content: center; font-family: 'Segoe UI', Arial, sans-serif; color: white; text-align: center; }
@@ -189,6 +178,12 @@
             <div id="host-panel">
                 <p style="font-family: 'Press Start 2P'; font-size: 8px; color: #fff; margin-bottom: 10px;">CRIE UM NOME PARA A SALA:</p>
                 <div class="input-group"><input type="text" id="host-code-input" placeholder="Ex: BATALHA26" maxlength="12" style="text-transform: uppercase;"></div>
+                
+                <div class="input-group" style="margin-top:10px;">
+                    <label>TOTAL DE HUMANOS (VOCÊ + AMIGOS)</label>
+                    <input type="number" id="num-humans" min="1" max="20" value="2">
+                </div>
+
                 <div class="settings-grid">
                     <div class="input-group"><label>BOTS (IA)</label><input type="number" id="num-bots" min="0" max="19" value="3"></div>
                     <div class="input-group"><label>BARALHOS</label><input type="number" id="num-decks" min="1" max="6" value="1"></div>
@@ -196,8 +191,8 @@
                 <div class="checkbox-container" style="margin-bottom:10px;">
                     <label style="font-family: 'Press Start 2P', cursive; font-size: 8px; color: #f1c40f;">USAR CORINGAS <input type="checkbox" id="use-jokers" checked></label>
                 </div>
-                <button class="btn-start" id="btn-create-room" onclick="iniciarSalaRede()" style="margin-bottom: 5px;">1. ABRIR PORTAS (CRIAR)</button>
-                <button class="btn-start" id="btn-start-game" onclick="dispararInicioDeJogo()" disabled style="background: #27ae60;">2. DISTRIBUIR CARTAS (JOGAR)</button>
+                
+                <button class="btn-start" id="btn-create-room" onclick="iniciarSalaRede()">ABRIR PORTAS DA SALA</button>
                 <div id="host-status" class="status-rede"></div>
             </div>
 
@@ -206,6 +201,7 @@
                 <button class="btn-start" onclick="conectarAoHost()">▶ CONECTAR E AGUARDAR</button>
                 <div id="guest-status" class="status-rede"></div>
             </div>
+            
             <button class="btn-discord" onclick="abrirDiscord()">🎧 ABRIR DISCORD (CHAT DE VOZ)</button>
         </div>
     </div>
@@ -233,34 +229,20 @@
     </div>
 
     <script>
-        // ==========================================
         // === MOTOR DE AUDIO 8-BIT E VIBRAÇÃO ====
-        // ==========================================
         let audioCtx;
         function initAudio() {
-            if(!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
+            if(!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
             if(audioCtx.state === 'suspended') audioCtx.resume();
         }
 
         function play8BitSound(freq, type, duration) {
             if(!audioCtx) return;
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            
-            oscillator.type = type; 
-            oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            
-            // Envelope clássico percussivo
-            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            
-            oscillator.start();
-            oscillator.stop(audioCtx.currentTime + duration);
+            const oscillator = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
+            oscillator.type = type; oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
+            oscillator.start(); oscillator.stop(audioCtx.currentTime + duration);
         }
 
         const SFX = {
@@ -268,51 +250,41 @@
             unselect: () => { play8BitSound(400, 'square', 0.1); if(navigator.vibrate) navigator.vibrate(10); },
             playCard: () => { play8BitSound(300, 'triangle', 0.15); play8BitSound(250, 'square', 0.15); if(navigator.vibrate) navigator.vibrate(40); },
             pass: () => { play8BitSound(150, 'sawtooth', 0.2); if(navigator.vibrate) navigator.vibrate([30, 30, 30]); },
-            combo: () => { 
-                setTimeout(() => play8BitSound(400, 'square', 0.1), 0);
-                setTimeout(() => play8BitSound(600, 'square', 0.1), 100);
-                setTimeout(() => play8BitSound(800, 'square', 0.2), 200);
-                if(navigator.vibrate) navigator.vibrate([100, 50, 100]); 
-            },
-            ultimate: () => {
-                play8BitSound(200, 'sawtooth', 0.5);
-                setTimeout(() => play8BitSound(150, 'sawtooth', 0.5), 100);
-                setTimeout(() => play8BitSound(100, 'sawtooth', 0.5), 200);
-                if(navigator.vibrate) navigator.vibrate([200, 50, 200, 50, 400]);
-            },
-            start: () => {
-                setTimeout(() => play8BitSound(523.25, 'square', 0.1), 0);
-                setTimeout(() => play8BitSound(659.25, 'square', 0.1), 150);
-                setTimeout(() => play8BitSound(783.99, 'square', 0.2), 300);
-            }
+            combo: () => { setTimeout(() => play8BitSound(400, 'square', 0.1), 0); setTimeout(() => play8BitSound(600, 'square', 0.1), 100); setTimeout(() => play8BitSound(800, 'square', 0.2), 200); if(navigator.vibrate) navigator.vibrate([100, 50, 100]); },
+            ultimate: () => { play8BitSound(200, 'sawtooth', 0.5); setTimeout(() => play8BitSound(150, 'sawtooth', 0.5), 100); setTimeout(() => play8BitSound(100, 'sawtooth', 0.5), 200); if(navigator.vibrate) navigator.vibrate([200, 50, 200, 50, 400]); },
+            start: () => { setTimeout(() => play8BitSound(523.25, 'square', 0.1), 0); setTimeout(() => play8BitSound(659.25, 'square', 0.1), 150); setTimeout(() => play8BitSound(783.99, 'square', 0.2), 300); }
         };
 
-
-        // === VARIÁVEIS DO JOGO E REDE ===
+        // === VARIÁVEIS E INICIALIZAÇÃO ===
         let myPeer = null; let isHost = false; 
         let guestConnections = []; let connToHost = null; 
-        let myPlayerIndex = -1; let playerNames = [];
+        let myPlayerIndex = -1; let playerNames = []; let jogoIniciando = false;
 
         const avatares = ['icon-chinelo', 'icon-papagaio', 'icon-filtro', 'icon-caramelo'];
         let avatarAtual = 0;
-
-        function mudarAvatar(direcao) {
-            avatarAtual += direcao;
-            if (avatarAtual < 0) avatarAtual = avatares.length - 1;
-            if (avatarAtual >= avatares.length) avatarAtual = 0;
-            document.getElementById('avatar-display').innerHTML = `<svg width="40" height="40"><use href="#${avatares[avatarAtual]}"></use></svg>`;
-        }
-
+        function mudarAvatar(direcao) { avatarAtual += direcao; if (avatarAtual < 0) avatarAtual = avatares.length - 1; if (avatarAtual >= avatares.length) avatarAtual = 0; document.getElementById('avatar-display').innerHTML = `<svg width="40" height="40"><use href="#${avatares[avatarAtual]}"></use></svg>`; }
         function abrirDiscord() { window.open("https://discord.gg/seu-codigo-aqui", "_blank"); }
-        function mostrarPainelHost() { 
-            initAudio(); // Inicializa o motor de som
-            document.getElementById('p2p-options').style.display = 'none'; 
-            document.getElementById('host-panel').style.display = 'block'; 
-        }
-        function mostrarPainelJoin() { 
-            initAudio(); // Inicializa o motor de som
-            document.getElementById('p2p-options').style.display = 'none'; 
-            document.getElementById('join-panel').style.display = 'block'; 
+
+        function mostrarPainelHost() { initAudio(); document.getElementById('p2p-options').style.display = 'none'; document.getElementById('host-panel').style.display = 'block'; }
+        function mostrarPainelJoin() { initAudio(); document.getElementById('p2p-options').style.display = 'none'; document.getElementById('join-panel').style.display = 'block'; }
+
+        // MÁGICA DO LINK DE CONVITE NO CARREGAMENTO DA PÁGINA
+        window.onload = () => {
+            criarChuvaDeChinelos();
+            const urlParams = new URLSearchParams(window.location.search);
+            const salaUrl = urlParams.get('sala');
+            if(salaUrl) {
+                mostrarPainelJoin();
+                document.getElementById('join-code').value = salaUrl.toUpperCase();
+            }
+        };
+
+        function copiarLinkConvite(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert("✅ Link copiado com sucesso! Pode colar no WhatsApp da galera.");
+            }).catch(err => {
+                alert("Erro ao copiar o link. Mas você pode copiar este endereço: " + link);
+            });
         }
 
         // --- SISTEMA DE REDE: ANFITRIÃO ---
@@ -322,6 +294,7 @@
             
             let myName = document.getElementById('player-name').value || "Host";
             playerNames = [myName];
+            let maxHumanos = parseInt(document.getElementById('num-humans').value) || 2;
 
             document.getElementById('host-status').innerText = "Abrindo portas...";
             document.getElementById('btn-create-room').disabled = true;
@@ -329,21 +302,42 @@
             myPeer = new Peer(roomName);
             myPeer.on('open', function(id) {
                 isHost = true;
-                document.getElementById('host-status').innerHTML = `✅ Sala aberta!<br><span style="font-size:12px; color:#fff;">Aguardando amigos...</span>`;
-                document.getElementById('btn-start-game').disabled = false;
+                let urlBase = window.location.href.split('?')[0];
+                let linkMistico = `${urlBase}?sala=${roomName}`;
+                
+                document.getElementById('host-status').innerHTML = `✅ Sala aberta!<br>
+                    <button onclick="copiarLinkConvite('${linkMistico}')" style="margin-top:10px; padding:10px; background:#e67e22; border:2px solid white; color:white; border-radius:5px; cursor:pointer; font-family:'Press Start 2P', cursive; font-size:8px; width:100%;">📋 COPIAR LINK CONVITE</button><br>
+                    <br><span style="font-size:12px; color:#fff;" id="contador-amigos">Aguardando... (1 de ${maxHumanos})</span>`;
+                
+                // Se o Host colocou apenas "1" humano, o jogo já dispara
+                if(maxHumanos <= 1) { dispararInicioDeJogo(); }
             });
 
             myPeer.on('connection', function(conn) {
                 conn.on('open', function() {
+                    if (jogoIniciando) return; // Evita que alguém entre depois que já deu start
+
                     let nextIndex = guestConnections.length + 1;
                     conn.assignedIndex = nextIndex;
                     guestConnections.push(conn);
                     
-                    document.getElementById('host-status').innerHTML = `👥 Amigos na sala: ${guestConnections.length}`;
+                    let maxHumanos = parseInt(document.getElementById('num-humans').value) || 2;
+                    let numAtuais = guestConnections.length + 1;
+                    
+                    if(document.getElementById('contador-amigos')) {
+                        document.getElementById('contador-amigos').innerText = `Aguardando... (${numAtuais} de ${maxHumanos})`;
+                    }
                     
                     conn.on('data', function(data) {
                         if (data.action === 'joinInfo') {
                             playerNames[conn.assignedIndex] = data.name;
+                            
+                            // === DISPARO AUTOMÁTICO QUANDO ENCHE A SALA ===
+                            if (numAtuais >= maxHumanos && !jogoIniciando) {
+                                jogoIniciando = true;
+                                setTimeout(dispararInicioDeJogo, 500); // Dá meio segundo pra garantir o nome de todos
+                            }
+
                         } else if (data.action === 'playCards' && currentPlayer === conn.assignedIndex) {
                             processarJogada(conn.assignedIndex, data.indices);
                         } else if (data.action === 'passTurn' && currentPlayer === conn.assignedIndex) {
@@ -352,18 +346,16 @@
                     });
                 });
             });
-            myPeer.on('error', function(err) { alert("Erro ao criar sala. Nome talvez em uso."); document.getElementById('btn-create-room').disabled = false; });
+            myPeer.on('error', function(err) { alert("Erro ao criar sala. Talvez este nome de sala já esteja sendo usado por outra pessoa na internet."); document.getElementById('btn-create-room').disabled = false; });
         }
 
         function dispararInicioDeJogo() {
             numBots = parseInt(document.getElementById('num-bots').value) || 0;
             numHumans = guestConnections.length + 1; 
             totalPlayers = numHumans + numBots;
-            
             for(let i=0; i<numBots; i++) playerNames.push(`BOT ${i+1}`);
             
-            SFX.start(); // Toca o som de início
-
+            SFX.start(); 
             guestConnections.forEach(conn => {
                 conn.send({ action: 'initGame', yourIndex: conn.assignedIndex, totalPlayers: totalPlayers, names: playerNames });
             });
@@ -386,12 +378,12 @@
                 connToHost = myPeer.connect(roomName);
                 
                 connToHost.on('open', function() {
-                    document.getElementById('guest-status').innerHTML = `✅ Conectado!<br><span style="font-size:12px; color:#fff;">Aguarde o anfitrião começar.</span>`;
+                    document.getElementById('guest-status').innerHTML = `✅ Conectado!<br><span style="font-size:12px; color:#fff;">Aguarde todos entrarem para o jogo começar...</span>`;
                     connToHost.send({ action: 'joinInfo', name: myName });
 
                     connToHost.on('data', function(data) {
                         if (data.action === 'initGame') {
-                            SFX.start(); // Som de início para convidados
+                            SFX.start(); 
                             myPlayerIndex = data.yourIndex;
                             totalPlayers = data.totalPlayers;
                             playerNames = data.names;
@@ -411,9 +403,9 @@
                         } else if (data.action === 'hideDraw') {
                             document.getElementById('draw-screen').style.display = 'none';
                         } else if (data.action === 'sfxPlayCard') {
-                            if (data.playerIndex !== myPlayerIndex) SFX.playCard(); // Ouve outros jogarem
+                            if (data.playerIndex !== myPlayerIndex) SFX.playCard(); 
                         } else if (data.action === 'sfxPass') {
-                            if (data.playerIndex !== myPlayerIndex) SFX.pass(); // Ouve outros passarem
+                            if (data.playerIndex !== myPlayerIndex) SFX.pass(); 
                         }
                     });
                 });
@@ -421,36 +413,31 @@
             });
         }
 
-        // --- ATUALIZA O ESTADO NO CELULAR DO CONVIDADO ---
         function atualizarPelaRede(data) {
             tableCombo = data.tableCombo; tableOwner = data.tableOwner; currentPlayer = data.currentPlayer;
             passedPlayers = data.passedPlayers; finishedPlayers = data.finishedPlayers; tableHistory = data.tableHistory;
             
             if (data.myHand) { players[myPlayerIndex] = data.myHand; renderHand(); }
             
-            const container = document.getElementById('opponents-container');
-            container.innerHTML = '';
+            const container = document.getElementById('opponents-container'); container.innerHTML = '';
             for (let i = 0; i < totalPlayers; i++) {
                 let div = document.createElement('div'); div.className = `opponent-box ${currentPlayer === i ? 'active' : ''}`;
                 if(finishedPlayers.includes(i)) div.classList.add('finished'); else if (passedPlayers[i]) div.style.opacity = '0.4';
                 div.innerHTML = `${playerNames[i]} <br><span style="font-weight:normal;">${data.cardCounts[i]} cartas</span> <div class="rank-badge" style="${finishedPlayers.includes(i)?'display:block':'none'}">${getRankName(finishedPlayers.indexOf(i))}</div>`;
                 container.appendChild(div);
             }
-
             updateTableUI(data.tableMsg);
 
             if(finishedPlayers.length >= totalPlayers - 1) { showEndScreen(); return; }
 
             if (currentPlayer === myPlayerIndex && !finishedPlayers.includes(myPlayerIndex)) {
-                document.getElementById('pass-btn').disabled = false;
-                validateSelection();
+                document.getElementById('pass-btn').disabled = false; validateSelection();
             } else {
-                document.getElementById('play-btn').disabled = true;
-                document.getElementById('pass-btn').disabled = true;
+                document.getElementById('play-btn').disabled = true; document.getElementById('pass-btn').disabled = true;
             }
         }
 
-        // === MOTOR DO JOGO DE CARTAS (RODA APENAS NO HOST) ===
+        // === MOTOR DO JOGO DE CARTAS (HOST) ===
         const svgFiltro = `<svg viewBox="0 0 32 32"><path d="M10,8 Q16,5 22,8 L24,18 Q16,22 8,18 Z" fill="#c04e01"/><path d="M10,8 Q16,11 22,8 L20,4 Q16,2 12,4 Z" fill="#8a3600"/><rect x="14" y="2" width="4" height="2" fill="#555"/></svg>`;
         const svgChinelo = `<svg viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#00a8ff"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#fff" stroke-width="2" fill="none"/><circle cx="16" cy="10" r="1.5" fill="#fff"/><circle cx="10" cy="18" r="1.5" fill="#fff"/><circle cx="22" cy="18" r="1.5" fill="#fff"/></svg>`;
         const svgCadeira = `<svg viewBox="0 0 32 32"><path d="M10,4 L22,4 L20,16 L12,16 Z" fill="#fbc531"/><rect x="10" y="16" width="12" height="2" fill="#e1b12c"/><rect x="11" y="18" width="2" height="10" fill="#fbc531"/><rect x="19" y="18" width="2" height="10" fill="#fbc531"/></svg>`;
@@ -464,119 +451,59 @@
         let passedPlayers = [], selectedIndices = [], tableHistory = [];
         let gameActive = false, finishedPlayers = [];
 
-        function broadcast(action, data) {
-            if(!isHost) return;
-            guestConnections.forEach(conn => conn.send({ action, ...data }));
-        }
-
+        function broadcast(action, data) { if(!isHost) return; guestConnections.forEach(conn => conn.send({ action, ...data })); }
         function masterSync(tableMsg = null) {
             if(!isHost) return;
             let cardCounts = players.map(p => p.length);
-            let stateData = { 
-                action: 'syncState', tableCombo, tableOwner, currentPlayer, passedPlayers, 
-                finishedPlayers, tableHistory, cardCounts, tableMsg 
-            };
-            
-            guestConnections.forEach(conn => {
-                conn.send({ ...stateData, myHand: players[conn.assignedIndex] });
-            });
+            let stateData = { action: 'syncState', tableCombo, tableOwner, currentPlayer, passedPlayers, finishedPlayers, tableHistory, cardCounts, tableMsg };
+            guestConnections.forEach(conn => { conn.send({ ...stateData, myHand: players[conn.assignedIndex] }); });
             atualizarPelaRede({ ...stateData, myHand: players[0] });
         }
 
         function initiateDraw() {
-            document.getElementById('setup-screen').style.display = 'none';
-            document.getElementById('game-screen').style.display = 'flex';
-            document.body.className = 'theme-table';
-            
+            document.getElementById('setup-screen').style.display = 'none'; document.getElementById('game-screen').style.display = 'flex'; document.body.className = 'theme-table';
             let spins = 0;
             let drawInterval = setInterval(() => {
-                let random = Math.floor(Math.random() * totalPlayers);
-                let txt = `Sorteando...\n\n${playerNames[random]}`;
-                document.getElementById('draw-screen').style.display = 'flex';
-                document.getElementById('draw-text').innerText = txt;
-                broadcast('showDraw', {text: txt});
-                spins++;
+                let random = Math.floor(Math.random() * totalPlayers); let txt = `Sorteando...\n\n${playerNames[random]}`;
+                document.getElementById('draw-screen').style.display = 'flex'; document.getElementById('draw-text').innerText = txt;
+                broadcast('showDraw', {text: txt}); spins++;
                 if (spins > 20) {
-                    clearInterval(drawInterval);
-                    currentPlayer = random;
-                    txt = `🏆 SORTEADO! 🏆\n\n${playerNames[currentPlayer]} COMEÇA!`;
-                    document.getElementById('draw-text').innerText = txt;
-                    broadcast('showDraw', {text: txt});
-                    setTimeout(startGame, 2000);
+                    clearInterval(drawInterval); currentPlayer = random; txt = `🏆 SORTEADO! 🏆\n\n${playerNames[currentPlayer]} COMEÇA!`;
+                    document.getElementById('draw-text').innerText = txt; broadcast('showDraw', {text: txt}); setTimeout(startGame, 2000);
                 }
             }, 100);
         }
 
         function startGame() {
-            document.getElementById('draw-screen').style.display = 'none';
-            broadcast('hideDraw', {});
-            
-            numDecks = parseInt(document.getElementById('num-decks').value) || 1;
-            useJokers = document.getElementById('use-jokers').checked;
-            players = Array.from({length: totalPlayers}, () => []);
-            passedPlayers = new Array(totalPlayers).fill(false);
-            finishedPlayers = []; tableHistory = []; tableCombo = null; tableOwner = -1;
-            gameActive = true;
-
-            buildDeck(); shuffleDeck(); dealCards(); 
-            for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power);
-
-            buildOpponentsUI();
-            masterSync("Partida Iniciada!");
-            setTimeout(processTurn, 1000);
+            document.getElementById('draw-screen').style.display = 'none'; broadcast('hideDraw', {});
+            numDecks = parseInt(document.getElementById('num-decks').value) || 1; useJokers = document.getElementById('use-jokers').checked;
+            players = Array.from({length: totalPlayers}, () => []); passedPlayers = new Array(totalPlayers).fill(false);
+            finishedPlayers = []; tableHistory = []; tableCombo = null; tableOwner = -1; gameActive = true;
+            buildDeck(); shuffleDeck(); dealCards(); for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power);
+            buildOpponentsUI(); masterSync("Partida Iniciada!"); setTimeout(processTurn, 1000);
         }
 
-        function buildDeck() {
-            deck = [];
-            for (let d = 0; d < numDecks; d++) {
-                for (let i = 0; i < values.length; i++) for (let j = 0; j < brSuits.length; j++) deck.push({ valueStr: values[i], suitId: brSuits[j].id, power: i, svg: brSuits[j].svg });
-                if (useJokers) { deck.push({ valueStr: '★', suitId: 'coringa', power: 13, svg: svgCaramelo }); deck.push({ valueStr: '★', suitId: 'coringa', power: 13, svg: svgJoaoBarro }); }
-            }
-        }
+        function buildDeck() { deck = []; for (let d = 0; d < numDecks; d++) { for (let i = 0; i < values.length; i++) for (let j = 0; j < brSuits.length; j++) deck.push({ valueStr: values[i], suitId: brSuits[j].id, power: i, svg: brSuits[j].svg }); if (useJokers) { deck.push({ valueStr: '★', suitId: 'coringa', power: 13, svg: svgCaramelo }); deck.push({ valueStr: '★', suitId: 'coringa', power: 13, svg: svgJoaoBarro }); } } }
         function shuffleDeck() { for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; } }
         function dealCards() { let p = 0; while (deck.length > 0) { players[p].push(deck.pop()); p = (p + 1) % totalPlayers; } }
-
-        function getRankName(finishIndex) {
-            if (finishIndex === 0) return "Presidente"; if (finishIndex === 1) return "Vice";
-            if (finishIndex === totalPlayers - 1) return "Mendigo"; if (finishIndex === totalPlayers - 2 && totalPlayers >= 4) return "Vice-Men.";
-            return "Neutro";
-        }
+        function getRankName(finishIndex) { if (finishIndex === 0) return "Presidente"; if (finishIndex === 1) return "Vice"; if (finishIndex === totalPlayers - 1) return "Mendigo"; if (finishIndex === totalPlayers - 2 && totalPlayers >= 4) return "Vice-Men."; return "Neutro"; }
 
         function processTurn() {
             if (!gameActive) return;
-            if (finishedPlayers.length >= totalPlayers - 1) {
-                for (let i = 0; i < totalPlayers; i++) if (!finishedPlayers.includes(i)) finishedPlayers.push(i);
-                gameActive = false; masterSync(); return;
-            }
-
-            let activeCount = 0;
-            for (let i = 0; i < totalPlayers; i++) if (!finishedPlayers.includes(i) && !passedPlayers[i]) activeCount++;
-            if (activeCount === 0 || (activeCount === 1 && tableCombo !== null && !passedPlayers[tableOwner])) {
-                setTimeout(limparMesaEAvancar, 600); return;
-            }
-
-            if (passedPlayers[currentPlayer] || finishedPlayers.includes(currentPlayer)) {
-                currentPlayer = (currentPlayer + 1) % totalPlayers; processTurn(); return;
-            }
-
-            let isBot = currentPlayer >= guestConnections.length + 1;
+            if (finishedPlayers.length >= totalPlayers - 1) { for (let i = 0; i < totalPlayers; i++) if (!finishedPlayers.includes(i)) finishedPlayers.push(i); gameActive = false; masterSync(); return; }
+            let activeCount = 0; for (let i = 0; i < totalPlayers; i++) if (!finishedPlayers.includes(i) && !passedPlayers[i]) activeCount++;
+            if (activeCount === 0 || (activeCount === 1 && tableCombo !== null && !passedPlayers[tableOwner])) { setTimeout(limparMesaEAvancar, 600); return; }
+            if (passedPlayers[currentPlayer] || finishedPlayers.includes(currentPlayer)) { currentPlayer = (currentPlayer + 1) % totalPlayers; processTurn(); return; }
             
-            if (isBot) {
-                masterSync(`${playerNames[currentPlayer]} pensando...`);
-                setTimeout(botLogic, 1200); 
-            } else {
-                let msg = tableCombo ? `Apenas ${tableCombo.count} carta(s) > ${tableCombo.cards[0].valueStr}` : "Mesa Livre!";
-                if(currentPlayer === 0) msg = "SUA VEZ! " + msg;
-                else msg = `Aguardando ${playerNames[currentPlayer]}...`;
-                masterSync(msg);
-            }
+            let isBot = currentPlayer >= guestConnections.length + 1;
+            if (isBot) { masterSync(`${playerNames[currentPlayer]} pensando...`); setTimeout(botLogic, 1200); 
+            } else { let msg = tableCombo ? `Apenas ${tableCombo.count} carta(s) > ${tableCombo.cards[0].valueStr}` : "Mesa Livre!"; if(currentPlayer === 0) msg = "SUA VEZ! " + msg; else msg = `Aguardando ${playerNames[currentPlayer]}...`; masterSync(msg); }
         }
 
         function renderHand() {
             const handDiv = document.getElementById('player-hand'); handDiv.innerHTML = '';
             players[myPlayerIndex].forEach((card, index) => {
-                const cardDiv = document.createElement('div'); cardDiv.className = `card suit-${card.suitId}`; cardDiv.id = `hand-card-${index}`;
-                cardDiv.onclick = () => toggleSelection(index);
+                const cardDiv = document.createElement('div'); cardDiv.className = `card suit-${card.suitId}`; cardDiv.id = `hand-card-${index}`; cardDiv.onclick = () => toggleSelection(index);
                 let centerContent = ['J', 'Q', 'K', '★'].includes(card.valueStr) ? `<div class="face"><div class="ornament"></div><div class="face-art">${card.svg}</div></div>` : `<div class="center-suit">${card.svg}</div>`;
                 cardDiv.innerHTML = `<div class="corner top-left"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>${centerContent}<div class="corner bottom-right"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>`;
                 handDiv.appendChild(cardDiv);
@@ -584,228 +511,69 @@
         }
 
         function toggleSelection(index) {
-            const pos = selectedIndices.indexOf(index);
-            const cardEl = document.getElementById(`hand-card-${index}`);
-            if (pos > -1) { 
-                selectedIndices.splice(pos, 1); if(cardEl) cardEl.classList.remove('selected'); 
-                SFX.unselect(); // Som ao desmarcar
-            }
-            else { 
-                selectedIndices.push(index); if(cardEl) cardEl.classList.add('selected'); 
-                SFX.select(); // Som ao marcar
-            }
+            const pos = selectedIndices.indexOf(index); const cardEl = document.getElementById(`hand-card-${index}`);
+            if (pos > -1) { selectedIndices.splice(pos, 1); if(cardEl) cardEl.classList.remove('selected'); SFX.unselect(); }
+            else { selectedIndices.push(index); if(cardEl) cardEl.classList.add('selected'); SFX.select(); }
             validateSelection();
         }
 
         function validateSelection() {
-            const playBtn = document.getElementById('play-btn');
-            if (selectedIndices.length === 0) { playBtn.disabled = true; return; }
-            let firstPower = players[myPlayerIndex][selectedIndices[0]].power;
-            let allSame = selectedIndices.every(i => players[myPlayerIndex][i].power === firstPower);
+            const playBtn = document.getElementById('play-btn'); if (selectedIndices.length === 0) { playBtn.disabled = true; return; }
+            let firstPower = players[myPlayerIndex][selectedIndices[0]].power; let allSame = selectedIndices.every(i => players[myPlayerIndex][i].power === firstPower);
             if (!allSame) { playBtn.disabled = true; return; }
-
-            if (tableCombo) {
-                let numPower = Number(firstPower); let tablePower = Number(tableCombo.power);
-                playBtn.disabled = !(selectedIndices.length === tableCombo.count && numPower > tablePower);
+            if (tableCombo) { let numPower = Number(firstPower); let tablePower = Number(tableCombo.power); playBtn.disabled = !(selectedIndices.length === tableCombo.count && numPower > tablePower);
             } else { playBtn.disabled = false; }
         }
 
-        function enviarAcaoDeJogada() {
-            SFX.playCard(); // Toca som no cliente que clicou
-            if(isHost) { processarJogada(0, selectedIndices); } 
-            else { connToHost.send({ action: 'playCards', indices: selectedIndices }); document.getElementById('play-btn').disabled = true; }
-            selectedIndices = [];
-        }
-
-        function enviarAcaoDePassar() {
-            SFX.pass(); // Toca som no cliente que clicou
-            if(isHost) { processarPassagem(0); }
-            else { connToHost.send({ action: 'passTurn' }); document.getElementById('pass-btn').disabled = true; }
-            selectedIndices = [];
-        }
+        function enviarAcaoDeJogada() { SFX.playCard(); if(isHost) { processarJogada(0, selectedIndices); } else { connToHost.send({ action: 'playCards', indices: selectedIndices }); document.getElementById('play-btn').disabled = true; } selectedIndices = []; }
+        function enviarAcaoDePassar() { SFX.pass(); if(isHost) { processarPassagem(0); } else { connToHost.send({ action: 'passTurn' }); document.getElementById('pass-btn').disabled = true; } selectedIndices = []; }
 
         function processarJogada(playerIdx, indices) {
-            // Emite aviso para os outros clientes tocarem o som, se não foi ele quem jogou
-            broadcast('sfxPlayCard', { playerIndex: playerIdx });
-            if (playerIdx !== 0 && isHost) SFX.playCard(); // O host toca se foi bot ou amigo
-
+            broadcast('sfxPlayCard', { playerIndex: playerIdx }); if (playerIdx !== 0 && isHost) SFX.playCard();
             let playedCards = indices.map(i => players[playerIdx][i]);
-            tableCombo = { power: Number(playedCards[0].power), count: playedCards.length, cards: playedCards };
-            tableOwner = playerIdx;
-            tableHistory.push({ playerIndex: playerIdx, cards: [...playedCards] });
-
-            indices.sort((a,b) => b - a).forEach(i => players[playerIdx].splice(i, 1));
-            passedPlayers.fill(false); 
+            tableCombo = { power: Number(playedCards[0].power), count: playedCards.length, cards: playedCards }; tableOwner = playerIdx; tableHistory.push({ playerIndex: playerIdx, cards: [...playedCards] });
+            indices.sort((a,b) => b - a).forEach(i => players[playerIdx].splice(i, 1)); passedPlayers.fill(false); 
             if (players[playerIdx].length === 0 && !finishedPlayers.includes(playerIdx)) { finishedPlayers.push(playerIdx); }
-            
-            triggerComboFX(playedCards.length, playedCards[0].power);
-            broadcast('comboFX', {count: playedCards.length, power: playedCards[0].power});
-
-            currentPlayer = (currentPlayer + 1) % totalPlayers;
-            masterSync();
-            setTimeout(processTurn, 800);
+            triggerComboFX(playedCards.length, playedCards[0].power); broadcast('comboFX', {count: playedCards.length, power: playedCards[0].power});
+            currentPlayer = (currentPlayer + 1) % totalPlayers; masterSync(); setTimeout(processTurn, 800);
         }
 
-        function processarPassagem(playerIdx) {
-            broadcast('sfxPass', { playerIndex: playerIdx });
-            if (playerIdx !== 0 && isHost) SFX.pass(); // O host toca se foi bot ou amigo
-
-            passedPlayers[playerIdx] = true;
-            currentPlayer = (currentPlayer + 1) % totalPlayers;
-            masterSync();
-            setTimeout(processTurn, 500);
-        }
+        function processarPassagem(playerIdx) { broadcast('sfxPass', { playerIndex: playerIdx }); if (playerIdx !== 0 && isHost) SFX.pass(); passedPlayers[playerIdx] = true; currentPlayer = (currentPlayer + 1) % totalPlayers; masterSync(); setTimeout(processTurn, 500); }
 
         function botLogic() {
-            let hand = players[currentPlayer]; let groups = {};
-            hand.forEach((card, i) => { let p = Number(card.power); if(!groups[p]) groups[p] = []; groups[p].push(i); });
-            let played = false;
-
-            if (!tableCombo) {
-                let lowestPower = Math.min(...Object.keys(groups).map(Number));
-                let indicesToPlay = groups[lowestPower]; 
-                processarJogada(currentPlayer, indicesToPlay); played = true;
-            } else {
-                let tablePower = Number(tableCombo.power);
-                let powersAscending = Object.keys(groups).map(Number).sort((a,b) => a - b);
-                for (let p of powersAscending) {
-                    if (p > tablePower && groups[p].length >= tableCombo.count) {
-                        let indicesToPlay = groups[p].slice(0, tableCombo.count);
-                        processarJogada(currentPlayer, indicesToPlay); played = true; break;
-                    }
-                }
+            let hand = players[currentPlayer]; let groups = {}; hand.forEach((card, i) => { let p = Number(card.power); if(!groups[p]) groups[p] = []; groups[p].push(i); }); let played = false;
+            if (!tableCombo) { let lowestPower = Math.min(...Object.keys(groups).map(Number)); let indicesToPlay = groups[lowestPower]; processarJogada(currentPlayer, indicesToPlay); played = true; } 
+            else { let tablePower = Number(tableCombo.power); let powersAscending = Object.keys(groups).map(Number).sort((a,b) => a - b);
+                for (let p of powersAscending) { if (p > tablePower && groups[p].length >= tableCombo.count) { let indicesToPlay = groups[p].slice(0, tableCombo.count); processarJogada(currentPlayer, indicesToPlay); played = true; break; } }
             }
             if (!played) { processarPassagem(currentPlayer); }
         }
 
         function limparMesaEAvancar() {
-            animarLimpezaMesa();
-            broadcast('clearTable', {});
-            setTimeout(() => {
-                tableCombo = null; tableHistory = []; passedPlayers.fill(false);
-                if (finishedPlayers.includes(tableOwner)) {
-                    let next = (tableOwner + 1) % totalPlayers;
-                    while (finishedPlayers.includes(next)) next = (next + 1) % totalPlayers;
-                    currentPlayer = next;
-                } else { currentPlayer = tableOwner; }
-                masterSync("MESA LIMPA! NOVA RODADA.");
-                setTimeout(processTurn, 1000); 
+            animarLimpezaMesa(); broadcast('clearTable', {});
+            setTimeout(() => { tableCombo = null; tableHistory = []; passedPlayers.fill(false);
+                if (finishedPlayers.includes(tableOwner)) { let next = (tableOwner + 1) % totalPlayers; while (finishedPlayers.includes(next)) next = (next + 1) % totalPlayers; currentPlayer = next; } else { currentPlayer = tableOwner; }
+                masterSync("MESA LIMPA! NOVA RODADA."); setTimeout(processTurn, 1000); 
             }, 500);
         }
 
-        // --- FUNÇÕES VISUAIS GLOBAIS ---
         function triggerComboFX(count, power) {
             const table = document.getElementById('table-card'); const comboText = document.getElementById('combo-text-effect'); const shockwave = document.getElementById('shockwave');
             table.className = 'table-cards-container'; document.body.classList.remove('bg-heat-1', 'bg-heat-2', 'bg-heat-3', 'ultimate-active');
-            
             if (power >= 13) { table.classList.add('heat-3'); document.body.classList.add('bg-heat-3'); } else if (power >= 11) { table.classList.add('heat-2'); document.body.classList.add('bg-heat-2'); } else if (power >= 8) { table.classList.add('heat-1'); document.body.classList.add('bg-heat-1'); }
-            
-            if (count === 3) { 
-                comboText.innerText = "COMBO!"; comboText.style.animation = 'comboText 0.8s forwards'; table.classList.add('shake-once'); 
-                SFX.combo(); // Chama o som e a vibração do Combo
-                setTimeout(() => { comboText.style.animation = ''; table.classList.remove('shake-once'); }, 800); 
-            } else if (count >= 4) { 
-                comboText.innerText = "ULTIMATE!"; comboText.style.animation = 'comboText 1s forwards'; document.body.classList.add('ultimate-active', 'shake-once'); shockwave.style.animation = 'shockwave 0.6s forwards'; 
-                SFX.ultimate(); // Chama o som e a vibração extrema do Ultimate
-                setTimeout(() => { document.body.classList.remove('ultimate-active', 'shake-once'); shockwave.style.animation = ''; }, 1000); 
-            }
+            if (count === 3) { comboText.innerText = "COMBO!"; comboText.style.animation = 'comboText 0.8s forwards'; table.classList.add('shake-once'); SFX.combo(); setTimeout(() => { comboText.style.animation = ''; table.classList.remove('shake-once'); }, 800); } 
+            else if (count >= 4) { comboText.innerText = "ULTIMATE!"; comboText.style.animation = 'comboText 1s forwards'; document.body.classList.add('ultimate-active', 'shake-once'); shockwave.style.animation = 'shockwave 0.6s forwards'; SFX.ultimate(); setTimeout(() => { document.body.classList.remove('ultimate-active', 'shake-once'); shockwave.style.animation = ''; }, 1000); }
         }
 
-        function animarLimpezaMesa() {
-            const playedCards = document.querySelectorAll('.played-card');
-            playedCards.forEach(card => card.classList.add('sweep-animation'));
-            document.getElementById('table-card').className = 'table-cards-container';
-            document.body.className = 'theme-table'; 
-        }
-
-        function generateCardHTML(card) {
-            let isFaceCard = ['J', 'Q', 'K', '★'].includes(card.valueStr);
-            let centerContent = isFaceCard ? `<div class="face"><div class="ornament"></div><div class="face-art">${card.svg}</div></div>` : `<div class="center-suit">${card.svg}</div>`;
-            return `<div class="corner top-left"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>${centerContent}<div class="corner bottom-right"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>`;
-        }
-
-        function updateTableUI(msgOverride = null) {
-            const tableDiv = document.getElementById('table-card'); const msgDiv = document.getElementById('status-message'); const ownerDiv = document.getElementById('table-owner');
-            tableDiv.querySelectorAll('.played-card').forEach(e => e.remove());
-            if (tableCombo) {
-                tableCombo.cards.forEach((card, idx) => { let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; cardEl.style.zIndex = idx; cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); });
-                let requiredValue = tableCombo.cards[0].valueStr; let plural = tableCombo.count > 1 ? "cartas maiores" : "carta maior";
-                msgDiv.innerText = msgOverride || `Apenas ${tableCombo.count} ${plural} que ${requiredValue}`;
-                ownerDiv.innerText = `Líder: ${playerNames[tableOwner]}`;
-            } else { msgDiv.innerText = msgOverride || "MESA LIVRE - JOGUE ALGO"; ownerDiv.innerText = ""; }
-        }
-
-        function buildOpponentsUI() {
-            const container = document.getElementById('opponents-container'); container.innerHTML = '';
-            for (let i = 0; i < totalPlayers; i++) {
-                let div = document.createElement('div'); div.className = 'opponent-box'; div.id = `player-box-${i}`; div.innerHTML = `${playerNames[i]}`; container.appendChild(div);
-            }
-        }
-
-        function showHistory() {
-            if (tableHistory.length === 0) return;
-            const list = document.getElementById('history-list'); list.innerHTML = '';
-            [...tableHistory].reverse().forEach((record, index) => {
-                let row = document.createElement('div'); row.className = 'history-row'; let header = document.createElement('div'); header.className = 'history-header'; header.innerText = (index === 0 ? "Última Jogada: " : "Coberto: ") + playerNames[record.playerIndex];
-                let wrapper = document.createElement('div'); wrapper.className = 'history-cards-wrapper'; let scaleDiv = document.createElement('div'); scaleDiv.className = 'history-card-scale';
-                record.cards.forEach(card => { let cardEl = document.createElement('div'); cardEl.className = `card suit-${card.suitId}`; cardEl.innerHTML = generateCardHTML(card); scaleDiv.appendChild(cardEl); });
-                wrapper.appendChild(scaleDiv); row.appendChild(header); row.appendChild(wrapper); list.appendChild(row);
-            });
-            document.getElementById('history-modal').style.display = 'flex';
-        }
-
-        function showEndScreen() {
-            const list = document.getElementById('rank-list'); list.innerHTML = '';
-            finishedPlayers.forEach((playerIdx, rankPos) => {
-                let li = document.createElement('li'); let rankStr = getRankName(rankPos);
-                li.innerHTML = `<strong>${rankPos + 1}º - ${rankStr}:</strong> ${playerNames[playerIdx]}`;
-                if (rankPos === 0) li.style.borderLeftColor = "#ffeb3b"; if (rankPos === totalPlayers - 1) li.style.borderLeftColor = "#f44336";
-                list.appendChild(li);
-            });
-            document.getElementById('end-screen').style.display = 'flex';
-            if(isHost) { document.getElementById('btn-rematch').style.display = 'inline-block'; } 
-            else { document.getElementById('rematch-guest-msg').style.display = 'block'; }
-        }
-
-        function startRematch() {
-            if(!isHost) return;
-            buildDeck(); shuffleDeck(); players = Array.from({length: totalPlayers}, () => []); dealCards();
-            for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power);
-            
-            let pres = finishedPlayers[0]; let scum = finishedPlayers[finishedPlayers.length - 1];
-            let scumBest = players[scum].pop(); let presWorst = players[pres].shift(); 
-            players[pres].push(scumBest); players[scum].push(presWorst);
-            
-            if (totalPlayers >= 4) {
-                let vice = finishedPlayers[1]; let pen = finishedPlayers[finishedPlayers.length - 2];
-                let penBest = players[pen].pop(); let viceWorst = players[vice].shift();
-                players[vice].push(penBest); players[pen].push(viceWorst);
-            }
-            for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power);
-            
-            currentPlayer = scum; finishedPlayers = []; passedPlayers.fill(false);
-            tableCombo = null; tableHistory = []; tableOwner = -1; gameActive = true;
-            
-            document.getElementById('end-screen').style.display = 'none';
-            broadcast('hideEndScreen', {});
-            
-            masterSync("Troca Concluída! Mendigo Começa.");
-            setTimeout(processTurn, 1500);
-        }
-
-        function criarChuvaDeChinelos() {
-            const rainContainer = document.getElementById('rain-container');
-            for (let i = 0; i < 30; i++) {
-                let chinelo = document.createElement('div'); chinelo.className = 'chinelo-rain';
-                let startLeft = Math.random() * 150 - 50; let animationDuration = Math.random() * 8 + 4; 
-                let animationDelay = Math.random() * 10; let scale = Math.random() * 0.5 + 0.3; let opacity = Math.random() * 0.4 + 0.1; 
-                chinelo.innerHTML = `<svg width="40" height="40" style="transform: scale(${scale})"><use href="#icon-chinelo"></use></svg>`;
-                chinelo.style.left = `${startLeft}vw`; chinelo.style.animationDuration = `${animationDuration}s`;
-                chinelo.style.animationDelay = `${animationDelay}s`; chinelo.style.opacity = opacity;
-                rainContainer.appendChild(chinelo);
-            }
-        }
-        window.onload = criarChuvaDeChinelos;
+        function animarLimpezaMesa() { const playedCards = document.querySelectorAll('.played-card'); playedCards.forEach(card => card.classList.add('sweep-animation')); document.getElementById('table-card').className = 'table-cards-container'; document.body.className = 'theme-table'; }
+        function generateCardHTML(card) { let isFaceCard = ['J', 'Q', 'K', '★'].includes(card.valueStr); let centerContent = isFaceCard ? `<div class="face"><div class="ornament"></div><div class="face-art">${card.svg}</div></div>` : `<div class="center-suit">${card.svg}</div>`; return `<div class="corner top-left"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>${centerContent}<div class="corner bottom-right"><div class="value">${card.valueStr}</div><div class="mini-suit">${card.svg}</div></div>`; }
+        function updateTableUI(msgOverride = null) { const tableDiv = document.getElementById('table-card'); const msgDiv = document.getElementById('status-message'); const ownerDiv = document.getElementById('table-owner'); tableDiv.querySelectorAll('.played-card').forEach(e => e.remove()); if (tableCombo) { tableCombo.cards.forEach((card, idx) => { let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; cardEl.style.zIndex = idx; cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); }); let requiredValue = tableCombo.cards[0].valueStr; let plural = tableCombo.count > 1 ? "cartas maiores" : "carta maior"; msgDiv.innerText = msgOverride || `Apenas ${tableCombo.count} ${plural} que ${requiredValue}`; ownerDiv.innerText = `Líder: ${playerNames[tableOwner]}`; } else { msgDiv.innerText = msgOverride || "MESA LIVRE - JOGUE ALGO"; ownerDiv.innerText = ""; } }
+        function buildOpponentsUI() { const container = document.getElementById('opponents-container'); container.innerHTML = ''; for (let i = 0; i < totalPlayers; i++) { let div = document.createElement('div'); div.className = 'opponent-box'; div.id = `player-box-${i}`; div.innerHTML = `${playerNames[i]}`; container.appendChild(div); } }
+        function showHistory() { if (tableHistory.length === 0) return; const list = document.getElementById('history-list'); list.innerHTML = ''; [...tableHistory].reverse().forEach((record, index) => { let row = document.createElement('div'); row.className = 'history-row'; let header = document.createElement('div'); header.className = 'history-header'; header.innerText = (index === 0 ? "Última Jogada: " : "Coberto: ") + playerNames[record.playerIndex]; let wrapper = document.createElement('div'); wrapper.className = 'history-cards-wrapper'; let scaleDiv = document.createElement('div'); scaleDiv.className = 'history-card-scale'; record.cards.forEach(card => { let cardEl = document.createElement('div'); cardEl.className = `card suit-${card.suitId}`; cardEl.innerHTML = generateCardHTML(card); scaleDiv.appendChild(cardEl); }); wrapper.appendChild(scaleDiv); row.appendChild(header); row.appendChild(wrapper); list.appendChild(row); }); document.getElementById('history-modal').style.display = 'flex'; }
+        
+        function showEndScreen() { const list = document.getElementById('rank-list'); list.innerHTML = ''; finishedPlayers.forEach((playerIdx, rankPos) => { let li = document.createElement('li'); let rankStr = getRankName(rankPos); li.innerHTML = `<strong>${rankPos + 1}º - ${rankStr}:</strong> ${playerNames[playerIdx]}`; if (rankPos === 0) li.style.borderLeftColor = "#ffeb3b"; if (rankPos === totalPlayers - 1) li.style.borderLeftColor = "#f44336"; list.appendChild(li); }); document.getElementById('end-screen').style.display = 'flex'; if(isHost) { document.getElementById('btn-rematch').style.display = 'inline-block'; } else { document.getElementById('rematch-guest-msg').style.display = 'block'; } }
+        function startRematch() { if(!isHost) return; buildDeck(); shuffleDeck(); players = Array.from({length: totalPlayers}, () => []); dealCards(); for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); let pres = finishedPlayers[0]; let scum = finishedPlayers[finishedPlayers.length - 1]; let scumBest = players[scum].pop(); let presWorst = players[pres].shift(); players[pres].push(scumBest); players[scum].push(presWorst); if (totalPlayers >= 4) { let vice = finishedPlayers[1]; let pen = finishedPlayers[finishedPlayers.length - 2]; let penBest = players[pen].pop(); let viceWorst = players[vice].shift(); players[vice].push(penBest); players[pen].push(viceWorst); } for (let i = 0; i < totalPlayers; i++) players[i].sort((a, b) => a.power - b.power); currentPlayer = scum; finishedPlayers = []; passedPlayers.fill(false); tableCombo = null; tableHistory = []; tableOwner = -1; gameActive = true; document.getElementById('end-screen').style.display = 'none'; broadcast('hideEndScreen', {}); masterSync("Troca Concluída! Mendigo Começa."); setTimeout(processTurn, 1500); }
+        function criarChuvaDeChinelos() { const rainContainer = document.getElementById('rain-container'); for (let i = 0; i < 30; i++) { let chinelo = document.createElement('div'); chinelo.className = 'chinelo-rain'; let startLeft = Math.random() * 150 - 50; let animationDuration = Math.random() * 8 + 4; let animationDelay = Math.random() * 10; let scale = Math.random() * 0.5 + 0.3; let opacity = Math.random() * 0.4 + 0.1; chinelo.innerHTML = `<svg width="40" height="40" style="transform: scale(${scale})"><use href="#icon-chinelo"></use></svg>`; chinelo.style.left = `${startLeft}vw`; chinelo.style.animationDuration = `${animationDuration}s`; chinelo.style.animationDelay = `${animationDelay}s`; chinelo.style.opacity = opacity; rainContainer.appendChild(chinelo); } }
     </script>
 </body>
 </html>
