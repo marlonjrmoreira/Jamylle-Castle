@@ -14,24 +14,19 @@
         body { margin: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: background 0.8s ease; }
         body.theme-lobby { background: linear-gradient(135deg, #1a0b2e 0%, #3b1b54 50%, #150824 100%); }
         
+        /* Novo tema da mesa: Pátio do Castelo */
         body.theme-table { background: radial-gradient(circle at top, #157347, #0b3d25 70%); background-size: cover; position: relative; }
         
         @keyframes fall { 0% { transform: translate(0, 0) rotate(15deg); } 100% { transform: translate(100vw, 100vh) rotate(45deg); } }
         @keyframes idleBreathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-8px) scaleY(1.02); } }
         @keyframes floatText { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        /* Animações da Princesa */
-        @keyframes swayHair { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(3deg); } }
-        @keyframes waveHand { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-15deg); } }
-        
-        .jamylle-hair { transform-origin: top center; animation: swayHair 3s infinite ease-in-out; }
-        .jamylle-hand { transform-origin: top left; animation: waveHand 2s infinite ease-in-out; }
-
         /* === LOBBY === */
         #setup-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 20; overflow-y: auto; }
         #rain-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; z-index: 1; }
         .chinelo-rain { position: absolute; top: -100px; opacity: 0.6; animation: fall linear infinite; }
 
+        /* Container do pôster/fundo puro pixel art */
         #poster-fundo-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
         #logos-inferiores-svg { position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 2; pointer-events: none; }
 
@@ -63,14 +58,10 @@
         .btn-create { background: #8e44ad; color: white; } .btn-join { background: #e67e22; color: white; }
         .btn-start { width: 100%; padding: 15px; background: #2ecc71; color: white; border: 3px solid #fff; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 10px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 0 #27ae60;} .btn-start:active { transform: translateY(4px); box-shadow: 0 0 0 #27ae60; }
         .btn-discord { width: 100%; padding: 10px; background: #5865F2; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 9px; cursor: pointer; margin-top: 10px; box-shadow: 0 3px 0 #404eed;} .btn-discord:active { transform: translateY(3px); box-shadow: 0 0 0 #404eed; }
-        
-        /* Botão da Música */
-        .btn-music { width: 100%; padding: 10px; background: #d35400; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Press Start 2P', cursive; font-size: 9px; cursor: pointer; margin-top: 10px; box-shadow: 0 3px 0 #a04000; transition: transform 0.1s;} 
-        .btn-music:active { transform: translateY(3px); box-shadow: 0 0 0 #a04000; }
-
         .status-rede { font-family: 'VT323', monospace; font-size: 16px; color: #f1c40f; margin-top: 10px; }
 
         /* === PRINCESA E JOGO GERAL === */
+        /* A princesa flutuante é removida no lobby novo, ela já está no fundo */
         .jamylle-container { position: absolute; bottom: 20px; right: 30px; z-index: 25; display: flex; flex-direction: column; align-items: center; pointer-events: none; transition: all 0.8s ease; display: none; }
         
         body.theme-table .jamylle-container { display: flex; bottom: 230px; right: 10px; transform: scale(0.85); z-index: 2; }
@@ -87,6 +78,7 @@
 
         #game-screen { display: none; flex-grow: 1; flex-direction: column; justify-content: space-between; position: relative; padding-top: 10px; z-index: 10; }
         
+        /* Novo fundo da mesa: Patio Castelo Visto de Cima */
         #patio-castelo-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         
         @keyframes shake { 0%, 30%, 60%, 90% { transform: translate(1px, 1px) rotate(0deg); } 10%, 50%, 80%, 100% { transform: translate(-1px, -2px) rotate(-1deg); } 20%, 40%, 70% { transform: translate(-3px, 0px) rotate(1deg); } }
@@ -133,6 +125,7 @@
         .card, .played-card { width: 140px; height: 200px; background: linear-gradient(to bottom, #ffffff, #f4f4f4); border-radius: 12px; position: relative; border: 1px solid #cfcfcf; box-shadow: 0 10px 15px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.9); overflow: hidden; transition: 0.18s ease; flex-shrink: 0; cursor: pointer; user-select: none; }
         .card::after, .played-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.35), transparent 30%); pointer-events: none; }
         
+        /* Novos símbolos das cartas e oponente BR */
         .suit-filtro { color: #8a3600; } .suit-chinelo { color: #005c29; } .suit-cadeira { color: #b8860b; } .suit-papagaio { color: #c11b1b; } .suit-coringa { color: #111; } 
         .suit-sapato { color: #8e44ad; } .suit-doce { color: #d35400; } .suit-joaobarro { color: #2c3e50; }
 
@@ -167,26 +160,34 @@
         @media (max-width: 768px) {
             .card, .played-card { width: 85px; height: 121px; border-radius: 8px; }
             .hand { height: 135px; justify-content: flex-start; } 
+            
             .hand .card { margin-left: -30px; } 
             .hand .card:first-child { margin-left: auto; } 
             .hand .card:last-child { margin-right: auto; }
+            
             .hand .card.selected { transform: translateY(-30px); outline-width: 3px; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
+            
             .corner .value { font-size: 18px; } .corner .mini-suit { font-size: 14px; }
             .top-left { top: 4px; left: 6px; } .bottom-right { bottom: 4px; right: 6px; }
             .center-suit { font-size: 45px; } .face { width: 55px; height: 75px; border-width: 1px; } .face-art { font-size: 38px; }
             .table-cards-container { min-height: 150px; min-width: 150px; border-width: 2px; }
+            
             #status-message { font-size: 12px; top: -35px; } #table-owner { font-size: 11px; bottom: -20px; } #table-hint { display: none; } 
             .history-card-scale { transform: scale(0.5); } .history-cards-wrapper { height: 70px; }
             #combo-text-effect { font-size: 24px; top: 30%; }
+            
             .jamylle-container { bottom: 10px; right: 10px; } .jamylle-sprite { width: 70px; height: 90px; }
             body.theme-table .jamylle-container { bottom: 160px; right: -5px; transform: scale(0.7); }
+            
+            /* Ajuste críto para Cabeçalho Mobile - não corta nomes */
             .opponents-container { flex-wrap: wrap; gap: 4px; padding: 4px; justify-content: center; }
             .opponent-box { padding: 4px 6px; font-size: 9px; min-width: 70px; }
             .opponent-header-info { gap: 3px; }
             .opponent-avatar { width: 12px; height: 12px; }
             .controls button { padding: 8px 15px; font-size: 12px; }
             .btn-discord { font-size: 8px; padding: 6px; }
-            .btn-music { font-size: 8px; padding: 6px; }
+            
+            /* Ajuste do lobby para mobile com o pôster */
             .lobby-container { margin-top: 15vh; margin-bottom: 2vh; }
             #logos-inferiores-svg { height: 60px;}
         }
@@ -197,6 +198,7 @@
     <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
         <symbol id="icon-chinelo" viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#00a8ff"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#fff" stroke-width="2" fill="none"/></symbol>
         <symbol id="icon-chinelo-br" viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#2ecc71"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#f1c40f" stroke-width="2.5" fill="none"/><circle cx="16" cy="10" r="1.5" fill="#f1c40f"/><circle cx="10" cy="18" r="1.5" fill="#f1c40f"/><circle cx="22" cy="18" r="1.5" fill="#fff"/></symbol>
+        
         <symbol id="icon-sapato" viewBox="0 0 32 32"><path d="M4,16 Q8,4 16,12 L28,28 Q16,30 4,28 Z" fill="#9b59b6"/></symbol>
         <symbol id="icon-filtro" viewBox="0 0 32 32"><path d="M10,8 Q16,5 22,8 L24,18 Q16,22 8,18 Z" fill="#c04e01"/><path d="M10,8 Q16,11 22,8 L20,4 Q16,2 12,4 Z" fill="#8a3600"/><rect x="14" y="2" width="4" height="2" fill="#555"/></symbol>
         <symbol id="icon-papagaio" viewBox="0 0 32 32"><path d="M16,4 C20,4 22,8 22,12 C22,20 16,28 12,30 Z" fill="#4cd137"/><path d="M22,8 C26,8 28,12 22,14 Z" fill="#e84118"/><circle cx="20" cy="8" r="1" fill="#000"/><path d="M14,14 C12,18 8,20 6,18 Z" fill="#fbc531"/></symbol>
@@ -206,22 +208,14 @@
         <symbol id="icon-joaobarro" viewBox="0 0 32 32"><circle cx="16" cy="16" r="10" fill="#8b5a2b"/><circle cx="12" cy="18" r="3" fill="#000"/><path d="M6,16 Q16,6 26,16" stroke="#5c3a21" stroke-width="2" fill="none"/></symbol>
 
         <symbol id="jamylle-art" viewBox="0 0 64 64">
-            <g class="jamylle-hair">
-                <rect x="16" y="16" width="32" height="26" fill="#f1c40f" rx="4"/>
-                <rect x="14" y="24" width="8" height="20" fill="#f1c40f" rx="2"/>
-                <rect x="42" y="24" width="8" height="20" fill="#f1c40f" rx="2"/>
-            </g>
+            <rect x="18" y="20" width="28" height="30" fill="#f1c40f" rx="4"/>
             <path d="M22,35 L42,35 L48,60 L16,60 Z" fill="#9b59b6"/>
             <rect x="28" y="35" width="8" height="25" fill="#8e44ad"/>
-            <g class="jamylle-hand" transform="translate(14, 38)">
-                <rect x="-2" y="0" width="6" height="12" fill="#9b59b6" rx="2"/>
-                <circle cx="1" cy="12" r="3" fill="#ffeaa7"/>
-            </g>
             <rect x="22" y="18" width="20" height="18" fill="#ffeaa7" rx="2"/>
             <circle cx="28" cy="24" r="2" fill="#2c3e50"/><circle cx="36" cy="24" r="2" fill="#2c3e50"/>
             <rect x="24" y="28" width="3" height="2" fill="#ffb8b8"/><rect x="37" y="28" width="3" height="2" fill="#ffb8b8"/>
             <path d="M22,18 L24,10 L32,14 L40,10 L42,18 Z" fill="#f39c12"/>
-            <rect x="20" y="16" width="24" height="4" fill="#f1c40f"/>
+            <rect x="20" y="16" width="24" height="4" fill="#f1c40f"/><rect x="18" y="18" width="4" height="12" fill="#f1c40f"/>
         </symbol>
     </svg>
 
@@ -243,7 +237,16 @@
         <text x="50" y="48" font-family="'Press Start 2P', cursive" font-size="2" fill="#bdc3c7" text-anchor="middle" >16-BIT CARTRIDGE MULTIPLAYER</text>
 
         <g transform="translate(15, 60) scale(1.1)">
-            <use href="#jamylle-art" x="0" y="0" width="64" height="64" />
+            <g id="jamylle-sprite">
+                <rect x="18" y="20" width="28" height="30" fill="#f1c40f" rx="4"/>
+                <path d="M22,35 L42,35 L48,60 L16,60 Z" fill="#9b59b6"/>
+                <rect x="28" y="35" width="8" height="25" fill="#8e44ad"/>
+                <rect x="22" y="18" width="20" height="18" fill="#ffeaa7" rx="2"/>
+                <circle cx="28" cy="24" r="2" fill="#2c3e50"/><circle cx="36" cy="24" r="2" fill="#2c3e50"/>
+                <rect x="24" y="28" width="3" height="2" fill="#ffb8b8"/><rect x="37" y="28" width="3" height="2" fill="#ffb8b8"/>
+                <path d="M22,18 L24,10 L32,14 L40,10 L42,18 Z" fill="#f39c12"/>
+                <rect x="20" y="16" width="24" height="4" fill="#f1c40f"/><rect x="18" y="18" width="4" height="12" fill="#f1c40f"/>
+            </g>
         </g>
         
         <g transform="translate(10, 85) scale(0.6)">
@@ -277,15 +280,18 @@
     
     <svg id="logos-inferiores-svg" viewBox="0 0 100 20" preserveAspectRatio="xMidYMid slice">
         <rect width="100" height="20" fill="#010001"/>
+        
         <g transform="translate(25, 2)">
             <rect width="8" height="11" fill="#fff"/>
             <text x="1" y="8" font-family="VT323" font-size="8" fill="#111" >10+</text>
         </g>
+        
         <g transform="translate(45, 2)">
             <rect width="8" height="6" fill="#fff"/>
             <circle cx="4" cy="3" r="1.5" fill="#e74c3c"/>
             <text x="4" y="10" font-family="Press Start 2P" font-size="1.5" fill="#fff" text-anchor="middle" >Made in PontoSilva</text>
         </g>
+        
         <g transform="translate(70, 2)">
             <rect width="20" height="11" fill="rgba(255,255,255,0.1)"/>
             <text x="10" y="5" font-family="'Press Start 2P', cursive" font-size="2" fill="#fff" text-anchor="middle" >MULTICART</text>
@@ -336,8 +342,6 @@
                 <button class="btn-start" onclick="conectarAoHost()">▶ CONECTAR E AGUARDAR</button>
                 <div id="guest-status" class="status-rede"></div>
             </div>
-            
-            <button class="btn-music" id="btn-bgm" onclick="toggleBGM()">🎵 MÚSICA LOBBY: OFF</button>
         </div>
     </div>
 
@@ -354,28 +358,22 @@
                 </pattern>
             </defs>
             <rect width="100" height="100" fill="url(#pisoCalçada)"/>
+            
             <g id="muros-mesa" fill="#0b3d25">
-                 <rect x="-5" y="0" width="10" height="100"/>
-                 <rect x="95" y="0" width="10" height="100"/>
-                 <rect x="0" y="-5" width="100" height="10"/>
-                 <rect x="0" y="95" width="100" height="10"/>
-            </g>
+                 <rect x="-5" y="0" width="10" height="100"/> <rect x="95" y="0" width="10" height="100"/> <rect x="0" y="-5" width="100" height="10"/> <rect x="0" y="95" width="100" height="10"/> </g>
+            
             <g transform="translate(5, 45) scale(0.6)">
                 <text x="10" y="10" font-family="Press Start 2P" font-size="4" fill="#111" filter="drop-shadow(1px 1px 0px #fff)">1</text>
-                <use href="#jamylle-art"/> 
-            </g>
+                <use href="#jamylle-art"/> </g>
              <g transform="translate(85, 45) scale(0.6)">
                 <text x="10" y="10" font-family="Press Start 2P" font-size="4" fill="#111" filter="drop-shadow(1px 1px 0px #fff)">2</text>
-                <use href="#jamylle-art" filter="hue-rotate(90deg)"/> 
-            </g>
+                <use href="#jamylle-art" filter="hue-rotate(90deg)"/> </g>
             <g transform="translate(45, 5) scale(0.6)">
                 <text x="10" y="10" font-family="Press Start 2P" font-size="4" fill="#111" filter="drop-shadow(1px 1px 0px #fff)">3</text>
-                <use href="#jamylle-art" filter="hue-rotate(180deg)"/> 
-            </g>
+                <use href="#jamylle-art" filter="hue-rotate(180deg)"/> </g>
              <g transform="translate(45, 85) scale(0.6)">
                 <text x="10" y="10" font-family="Press Start 2P" font-size="4" fill="#111" filter="drop-shadow(1px 1px 0px #fff)">4</text>
-                <use href="#jamylle-art" filter="hue-rotate(270deg)"/> 
-            </g>
+                <use href="#jamylle-art" filter="hue-rotate(270deg)"/> </g>
         </svg>
 
         <div class="opponents-container" id="opponents-container"></div>
@@ -404,38 +402,13 @@
             if(audioCtx.state === 'suspended') audioCtx.resume();
         }
 
-        function play8BitSound(freq, type, duration, vol = 0.1) {
+        function play8BitSound(freq, type, duration) {
             if(!audioCtx) return;
             const oscillator = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
             oscillator.type = type; oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gainNode.gain.setValueAtTime(vol, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
             oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
             oscillator.start(); oscillator.stop(audioCtx.currentTime + duration);
-        }
-
-        // Sintetizador da Melodia Medieval (Modo Dórico 8-bits)
-        let bgmPlaying = false;
-        let bgmTimeout;
-        let noteIndex = 0;
-        const melody = [
-            [293.66, 400], [349.23, 400], [392.00, 400], [440.00, 800], [392.00, 400], [349.23, 400], [293.66, 800], [261.63, 800],
-            [293.66, 400], [349.23, 400], [392.00, 400], [440.00, 800], [523.25, 400], [440.00, 400], [392.00, 800], [349.23, 800]
-        ];
-
-        function toggleBGM() {
-            if(!audioCtx) initAudio();
-            bgmPlaying = !bgmPlaying;
-            document.getElementById('btn-bgm').innerText = bgmPlaying ? "🎵 MÚSICA LOBBY: ON" : "🎵 MÚSICA LOBBY: OFF";
-            if(bgmPlaying) playNextNote();
-            else clearTimeout(bgmTimeout);
-        }
-
-        function playNextNote() {
-            if(!bgmPlaying) return;
-            const [freq, dur] = melody[noteIndex];
-            play8BitSound(freq, 'square', dur/1000 * 0.8, 0.05);
-            noteIndex = (noteIndex + 1) % melody.length;
-            bgmTimeout = setTimeout(playNextNote, dur);
         }
 
         const SFX = {
@@ -604,9 +577,6 @@
         }
 
         function dispararInicioDeJogo() {
-            // Desliga a música do lobby para não misturar com o jogo
-            if(bgmPlaying) toggleBGM();
-            
             numBots = parseInt(document.getElementById('num-bots').value) || 0;
             numHumans = guestConnections.length + 1; 
             totalPlayers = numHumans + numBots;
@@ -646,7 +616,6 @@
                     connToHost.on('data', function(data) {
                         if (data.action === 'ping') { connToHost.send({action: 'pong'}); }
                         else if (data.action === 'initGame') {
-                            if(bgmPlaying) toggleBGM();
                             SFX.start(); 
                             myPlayerIndex = data.yourIndex;
                             totalPlayers = data.totalPlayers;
@@ -699,6 +668,7 @@
         }
 
         // === MOTOR DO JOGO DE CARTAS (HOST) ===
+        // SVG Símbolos atualizados baseados no pôster
         const svgFiltroFace = `<svg viewBox="0 0 32 32"><path d="M10,8 Q16,5 22,8 L24,18 Q16,22 8,18 Z" fill="#c04e01"/><path d="M10,8 Q16,11 22,8 L20,4 Q16,2 12,4 Z" fill="#8a3600"/><rect x="14" y="2" width="4" height="2" fill="#555"/></svg>`;
         const svgChineloBRFace = `<svg viewBox="0 0 32 32"><path d="M12,4 C12,0 20,0 20,4 C20,12 24,18 24,24 C24,30 16,32 12,28 Z" fill="#2ecc71"/><path d="M16,10 L10,18 M16,10 L22,18" stroke="#f1c40f" stroke-width="2.5" fill="none"/><circle cx="16" cy="10" r="1.5" fill="#f1c40f"/><circle cx="10" cy="18" r="1.5" fill="#f1c40f"/><circle cx="22" cy="18" r="1.5" fill="#fff"/></svg>`;
         const svgCadeiraFace = `<svg viewBox="0 0 32 32"><path d="M10,4 L22,4 L20,16 L12,16 Z" fill="#fbc531"/><rect x="10" y="16" width="12" height="2" fill="#e1b12c"/><rect x="11" y="18" width="2" height="10" fill="#fbc531"/><rect x="19" y="18" width="2" height="10" fill="#fbc531"/></svg>`;
@@ -717,7 +687,7 @@
             { id: 'doce', svg: svgDoceFace },
             { id: 'joaobarro', svg: svgJoaoBarroFace }
         ];
-        const values = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2']; 
+        const values = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2']; // 2 is power 12
 
         let deck = [], players = [], tableCombo = null, tableOwner = -1, currentPlayer = 0;
         let passedPlayers = [], selectedIndices = [], tableHistory = [];
@@ -802,7 +772,7 @@
 
         function processarJogada(playerIdx, indices) {
             let playedCards = indices.map(i => players[playerIdx][i]);
-            let isTwo = playedCards[0].valueStr === '2'; 
+            let isTwo = playedCards[0].valueStr === '2'; // Carta '2'
             
             indices.sort((a,b) => b - a).forEach(i => players[playerIdx].splice(i, 1)); passedPlayers.fill(false); 
             if (players[playerIdx].length === 0 && !finishedPlayers.includes(playerIdx)) { finishedPlayers.push(playerIdx); }
@@ -810,11 +780,12 @@
             tableHistory.push({ playerIndex: playerIdx, cards: [...playedCards] });
 
             if (isTwo) {
+                // REGRA DO 2
                 broadcast('sfxPlayCard', { playerIndex: playerIdx }); if (playerIdx !== 0 && isHost) SFX.playCard();
                 tableCombo = { power: 12, count: playedCards.length, cards: playedCards };
                 tableOwner = playerIdx;
                 
-                triggerComboFX(playedCards.length, 13);
+                triggerComboFX(playedCards.length, 13); // Visual Ultimate
                 broadcast('comboFX', {count: playedCards.length, power: 13});
                 setPrincessEmotion('angry', 2000); broadcast('princessFx', {type:'angry', duration: 2000});
 
@@ -848,6 +819,7 @@
                 let indicesToPlay = groups[powersAscending[0]]; processarJogada(currentPlayer, indicesToPlay); played = true; 
             } else { 
                 let tablePower = Number(tableCombo.power); let count = tableCombo.count;
+                // IA tenta não quebrar combos grandes
                 for (let p of powersAscending) { if (p > tablePower && groups[p].length === count) { processarJogada(currentPlayer, groups[p]); played = true; break; } }
                 if(!played) { for (let p of powersAscending) { if (p > tablePower && groups[p].length > count) { processarJogada(currentPlayer, groups[p].slice(0, count)); played = true; break; } } }
             }
@@ -896,13 +868,14 @@
             }
 
             if (tableCombo) { 
+                // Distribui as cartas na mesa para ver todas (efeito leque)
                 let count = tableCombo.cards.length;
                 tableCombo.cards.forEach((card, idx) => { 
                     let cardEl = document.createElement('div'); cardEl.className = `played-card suit-${card.suitId} drop-animation`; 
                     cardEl.style.zIndex = 10 + idx; 
                     
-                    let offset = (idx - (count - 1) / 2) * 45; 
-                    let rot = (idx - (count - 1) / 2) * 10;    
+                    let offset = (idx - (count - 1) / 2) * 45; // Afastamento horizontal
+                    let rot = (idx - (count - 1) / 2) * 10;    // Rotação
                     cardEl.style.transform = `translateX(${offset}px) translateY(${Math.abs(offset)*0.2}px) rotate(${rot}deg)`;
                     
                     cardEl.innerHTML = generateCardHTML(card); tableDiv.appendChild(cardEl); 
